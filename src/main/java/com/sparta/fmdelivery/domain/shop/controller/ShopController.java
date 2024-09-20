@@ -22,9 +22,6 @@ public class ShopController {
 
     @PostMapping("/shops")
     public ResponseEntity<ShopResponse> createShop(@Auth AuthUser authuser, @RequestBody ShopCreateRequest request) {
-        System.out.println(authuser.getId());
-        System.out.println(authuser.getEmail());
-        System.out.println(authuser.getUserRole());
 
         return ResponseEntity.ok().body(shopService.createShop(authuser, request));
     }
@@ -41,16 +38,16 @@ public class ShopController {
         return ResponseEntity.ok().body(shopService.getShopList());
     }
 
-    @PutMapping("/shops/{id}")
+    @PutMapping("/shops")
     public ResponseEntity<ShopResponse> updateShop(@Auth AuthUser authUser, @RequestBody ShopUpdateRequest request) {
 
         return ResponseEntity.ok().body(shopService.updateShop(authUser, request));
     }
 
-    @PutMapping("/shops")
-    public ResponseEntity<String> deleteShop(@RequestBody ShopDeleteRequest request) {
+    @DeleteMapping("/shops")
+    public ResponseEntity<String> deleteShop(@Auth AuthUser authUser, @RequestBody ShopDeleteRequest request) {
 
-        shopService.deleteShop(request);
+        shopService.deleteShop(authUser, request);
         return ResponseEntity.ok().body("가게가 삭제 되었습니다.");
     }
  }
