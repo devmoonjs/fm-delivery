@@ -1,7 +1,8 @@
 package com.sparta.fmdelivery.config;
 
-import com.sparta.fmdelivery.domain.common.exception.ServerException;
+import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
+import com.sparta.fmdelivery.exception.ApiException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -67,7 +68,7 @@ public class JwtUtil {
         if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) { // tokenValue가 비어 있지 않고 Bearer 접두사로 시작되는지 확인
             return tokenValue.substring(7); // Bearer 접두사를 제외하고 실제 JWT 토큰 부분만 반환
         }
-        throw new ServerException("Not Found Token"); // 만약 Bearer 접두사가 없으면 예외 발생
+        throw new ApiException(ErrorStatus._EXCEPTION_ERROR_TOKEN); // 만약 Bearer 접두사가 없으면 예외 발생
     }
 
     public Claims extractClaims(String token) { // JWT 토큰에서 클레임 정보를 추출

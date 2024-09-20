@@ -1,6 +1,5 @@
 package com.sparta.fmdelivery.config;
 
-import com.sparta.fmdelivery.domain.auth.exception.AuthException;
 import com.sparta.fmdelivery.domain.common.annotation.Auth;
 import com.sparta.fmdelivery.domain.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
@@ -33,7 +32,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
         boolean isAuthUserType = parameter.getParameterType().equals(AuthUser.class);
 
         if (hasAuthAnnotation != isAuthUserType) {
-            throw new AuthException("@Auth와 AuthUser 타입은 함께 사용되어야 합니다.");
+            throw new IllegalArgumentException("@Auth와 AuthUser 타입은 함께 사용되어야 합니다.");
         }
         return hasAuthAnnotation;
     }

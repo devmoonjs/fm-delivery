@@ -1,5 +1,6 @@
 package com.sparta.fmdelivery.domain.shop.service;
 
+import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
 import com.sparta.fmdelivery.domain.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopDeleteRequest;
@@ -10,6 +11,7 @@ import com.sparta.fmdelivery.domain.shop.repository.ShopRepository;
 import com.sparta.fmdelivery.domain.user.entity.User;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
 import com.sparta.fmdelivery.domain.user.repository.UserRepository;
+import com.sparta.fmdelivery.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,8 @@ public class ShopService {
 
     /*
        가게 생성
+       1. 유저 계정이 '사장님(OWNER)' 계정인지 유효성 체크
+       2. '사장님(OWNER)' 계정이라면 가게 생성 진행
      */
     @Transactional
     public ShopResponse createShop(AuthUser authUser, ShopCreateRequest request) {
@@ -45,9 +49,7 @@ public class ShopService {
      */
     public ShopResponse getShop(Long id) {
 
-        return ShopResponse.of(shopRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("없는 가게입니다.")
-        ));
+        return ShopResponse.of(getShopById(id));
     }
 
     /*
@@ -63,7 +65,7 @@ public class ShopService {
 
     /*
         가게 삭제
-        soft delete 로 boolean 값만 false 로 변경.
+        본인 가게인지 유효성 체크 후, soft delete 진행
      */
     @Transactional
     public void deleteShop(AuthUser authUser, ShopDeleteRequest request) {
@@ -77,6 +79,7 @@ public class ShopService {
 
     /*
         가게 정보 업데이트
+        본인 가게인지 유효성 체크 후, 업데이트 진행
      */
     @Transactional
     public ShopResponse updateShop(AuthUser authUser, ShopUpdateRequest request) {
@@ -95,28 +98,28 @@ public class ShopService {
     private static void isShopOwner(AuthUser authUser, Shop shop) {
 
         if (!shop.getUser().getId().equals(authUser.getId())) {
-            throw new RuntimeException("본인 가게만 수정가능합니다.");
+            throw new ApiException(ErrorStatus._BAD_REQUEST_UPDATE_SHOP);
         }
     }
 
     private User getUserById(AuthUser authUser) {
 
         return userRepository.findById(authUser.getId()).orElseThrow(
-                () -> new RuntimeException("유저가 없습니다.")
+                () -> new ApiException(ErrorStatus._NOT_FOUND_USER)
         );
     }
 
     private Shop getShopById(Long id) {
 
         return shopRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("없는 가게입니다.")
+                () -> new ApiException(ErrorStatus._NOT_FOUND_SHOP)
         );
     }
 
     private static void isValidOwner(AuthUser authUser) {
 
         if (authUser.getUserRole().equals(UserRole.USER)) {
-            throw new IllegalAccessError("사장님 계정만 가게 생성이 가능합니다.");
+            throw new ApiException(ErrorStatus._BAD_REQUEST_CREATE_SHOP);
         }
     }
 }
