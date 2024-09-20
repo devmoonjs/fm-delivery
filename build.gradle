@@ -41,6 +41,10 @@ dependencies {
 
     // valid
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // JSON 파싱
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
+    implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
 }
 
 tasks.named('test') {
