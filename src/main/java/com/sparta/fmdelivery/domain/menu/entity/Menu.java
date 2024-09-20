@@ -2,10 +2,10 @@ package com.sparta.fmdelivery.domain.menu.entity;
 
 import com.sparta.fmdelivery.domain.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
+import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Entity
@@ -16,31 +16,25 @@ public class Menu extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "shop_id")
-    private Long shopId;
+    // shopId를 Shop 엔티티와의 외래 키로 설정
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id", nullable = false)
+    private Shop shop;
 
     private String name;
-
     private int price;
-
     private int status;
 
-    public Menu(MenuRequest request) {
-        this.shopId = request.getShopId();
+    public Menu(MenuRequest request, Shop shop) {
+        this.shop = shop;  // Shop 엔티티를 할당
         this.name = request.getName();
         this.price = request.getPrice();
         this.status = request.getStatus();
     }
 
-    public void changeName(String name) {
+    public void updateName(String name, int price, int status) {
         this.name = name;
-    }
-
-    public void changePrice(int price) {
         this.price = price;
-    }
-
-    public void changeStatus(int status) {
         this.status = status;
     }
 }
