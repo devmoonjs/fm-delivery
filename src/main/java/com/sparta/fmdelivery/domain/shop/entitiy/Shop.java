@@ -17,10 +17,10 @@ public class Shop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Long userId;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String name;
 
 //    @Column(nullable = false)
@@ -31,10 +31,10 @@ public class Shop {
 
     private int status;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private int minAmount;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private boolean isDeleted = false;
 
     public Shop(Long userId, String name, LocalTime openedAt, LocalTime closedAt, int minAmount) {
