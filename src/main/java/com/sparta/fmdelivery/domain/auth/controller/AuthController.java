@@ -1,5 +1,6 @@
 package com.sparta.fmdelivery.domain.auth.controller;
 
+import com.sparta.fmdelivery.apipayload.ApiResponse;
 import com.sparta.fmdelivery.domain.auth.dto.request.LoginRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignoutRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignupRequest;
@@ -19,17 +20,18 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/auth/signup")
-    public SignResponse signup(@Valid @RequestBody SignupRequest signupRequest) {
-        return authService.signup(signupRequest);
+    public ApiResponse<SignResponse> signup(@Valid @RequestBody SignupRequest signupRequest) {
+        return ApiResponse.onSuccess(authService.signup(signupRequest));
     }
 
     @PostMapping("/auth/login")
-    public SignResponse login(@Valid @RequestBody LoginRequest loginRequest) {
-        return authService.login(loginRequest);
+    public ApiResponse<SignResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        return ApiResponse.onSuccess(authService.login(loginRequest));
     }
 
     @DeleteMapping("/signout")
-    public void signout(@Valid @RequestBody SignoutRequest signoutRequest, @Auth AuthUser authUser) {
+    public ApiResponse<String> signout(@Valid @RequestBody SignoutRequest signoutRequest, @Auth AuthUser authUser) {
         authService.signout(signoutRequest, authUser.getId());
+        return ApiResponse.onSuccess("Success Signout");
     }
 }
