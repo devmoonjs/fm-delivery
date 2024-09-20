@@ -5,14 +5,14 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
+@Configuration
 @RequiredArgsConstructor
 public class FilterConfig { // 스프링에서 필터 설정을 담당하는 설정 클래스
 
     private final JwtUtil jwtUtil;
 
     // 필터를 등록하는 메서드. 메서드에서 반환되는 객체가 스프링에 필터로 등록
-//    @Bean
+    @Bean
     public FilterRegistrationBean<JwtFilter> jwtFilter() {
 
         // FilterRegistrationBean 객체를 생성하여, 필터를 설정할 준비를 함
