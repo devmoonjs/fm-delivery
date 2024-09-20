@@ -1,6 +1,9 @@
 package com.sparta.fmdelivery.domain.shop.controller;
 
+import com.sparta.fmdelivery.domain.common.annotation.Auth;
+import com.sparta.fmdelivery.domain.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
+import com.sparta.fmdelivery.domain.shop.dto.request.ShopDeleteRequest;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopUpdateRequest;
 import com.sparta.fmdelivery.domain.shop.dto.response.ShopResponse;
 import com.sparta.fmdelivery.domain.shop.service.ShopService;
@@ -18,9 +21,12 @@ public class ShopController {
     private final ShopService shopService;
 
     @PostMapping("/shops")
-    public ResponseEntity<ShopResponse> createShop(ShopCreateRequest request) {
+    public ResponseEntity<ShopResponse> createShop(@Auth AuthUser authuser, @RequestBody ShopCreateRequest request) {
+        System.out.println(authuser.getId());
+        System.out.println(authuser.getEmail());
+        System.out.println(authuser.getUserRole());
 
-        return ResponseEntity.ok().body(shopService.createShop(request));
+        return ResponseEntity.ok().body(shopService.createShop(authuser, request));
     }
 
     @GetMapping("/shops/{id}")
@@ -29,22 +35,22 @@ public class ShopController {
         return ResponseEntity.ok().body(shopService.getShop(id));
     }
 
-    @GetMapping("/shops/users/{id}")
-    public ResponseEntity<List<ShopResponse>> getShopList(@PathVariable Long id) {
+    @GetMapping("/shops")
+    public ResponseEntity<List<ShopResponse>> getShopList() {
 
-        return ResponseEntity.ok().body(shopService.getShopList(id));
+        return ResponseEntity.ok().body(shopService.getShopList());
     }
 
-    @PostMapping("/shops/{id}")
-    public ResponseEntity<ShopResponse> updateShop(@PathVariable Long id, ShopUpdateRequest request) {
+    @PutMapping("/shops/{id}")
+    public ResponseEntity<ShopResponse> updateShop(@Auth AuthUser authUser, @RequestBody ShopUpdateRequest request) {
 
-        return ResponseEntity.ok().body(shopService.updateShop(id, request));
+        return ResponseEntity.ok().body(shopService.updateShop(authUser, request));
     }
 
-    @GetMapping("/shops/{shopId}")
-    public ResponseEntity<String> deleteShop(@PathVariable Long shopId) {
+    @PutMapping("/shops")
+    public ResponseEntity<String> deleteShop(@RequestBody ShopDeleteRequest request) {
 
-        shopService.deleteShop(shopId);
+        shopService.deleteShop(request);
         return ResponseEntity.ok().body("가게가 삭제 되었습니다.");
     }
  }

@@ -7,7 +7,6 @@ import java.time.LocalTime;
 @Getter
 public class ShopCreateRequest {
 
-    private Long userId;
     private String name;
     private LocalTime openedAt;
     private LocalTime closedAt;
