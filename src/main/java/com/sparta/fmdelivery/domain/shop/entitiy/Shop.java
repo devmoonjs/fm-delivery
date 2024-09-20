@@ -39,7 +39,7 @@ public class Shop extends Timestamped {
     @Column(nullable = false)
     private boolean isDeleted = false;
 
-    public Shop(Long userId, String name, LocalTime openedAt, LocalTime closedAt, int minAmount) {
+    public Shop(String name, LocalTime openedAt, LocalTime closedAt, int minAmount) {
         this.userId = userId;
         this.name = name;
         this.openedAt = openedAt;
@@ -49,7 +49,7 @@ public class Shop extends Timestamped {
     }
 
     public Shop(ShopCreateRequest request) {
-        this.userId = request.getUserId();
+
         this.name = request.getName();
         this.openedAt = request.getOpenedAt();
         this.closedAt = request.getClosedAt();
