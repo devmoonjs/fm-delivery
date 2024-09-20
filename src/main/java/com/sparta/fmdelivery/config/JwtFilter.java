@@ -61,9 +61,6 @@ public class JwtFilter implements Filter {
             }
             // 클레임 정보가 없거나 잘못된 경우, 400 에러 반환
 
-            // JWT 토큰의 클레임에서 UserRole 값을 추출 -> enum 값으로 변환
-            UserRole userRole = UserRole.valueOf(claims.get("userRole", String.class));
-
             // 사용자 ID, 이메일, 역할 정보를 HTTP 요청 객체에 속성으로 설정하여 이후 로직에서 참조할 수 있게 만듬
             httpRequest.setAttribute("userId", Long.parseLong(claims.getSubject()));
             httpRequest.setAttribute("email", claims.get("email"));

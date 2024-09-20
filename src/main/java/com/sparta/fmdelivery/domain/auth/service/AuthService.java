@@ -3,6 +3,7 @@ package com.sparta.fmdelivery.domain.auth.service;
 import com.sparta.fmdelivery.config.JwtUtil;
 import com.sparta.fmdelivery.config.PasswordEncoder;
 import com.sparta.fmdelivery.domain.auth.dto.request.LoginRequest;
+import com.sparta.fmdelivery.domain.auth.dto.request.SignoutRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignupRequest;
 import com.sparta.fmdelivery.domain.auth.dto.response.SignResponse;
 import com.sparta.fmdelivery.domain.auth.exception.AuthException;
@@ -77,11 +78,35 @@ public class AuthService {
         );
 
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new AuthException("잘못된 비밀번호입니다.");
+            throw new AuthException("비밀번호가 일치하지 않습니다.");
         }
 
         String bearerToken = jwtUtil.createToken(user.getId(), user.getEmail(), user.getUserRole());
 
         return new SignResponse(bearerToken);
+    }
+
+    /**
+     * 회원 탈퇴 메서드:
+     * - 요청된 비밀번호가 일치하는지 확인한 후, 일치하면 회원 탈퇴를 처리합니다.
+     * - 비밀번호가 일치하지 않으면 예외를 발생시킵니다.
+     *
+     * @param signoutRequest 비밀번호를 포함한 회원 탈퇴 요청 데이터
+     * @param userId 현재 로그인한 사용자의 ID
+     * @throws InvalidRequestException 가입되지 않은 유저인 경우 발생
+     * @throws AuthException 비밀번호가 일치하지 않는 경우 발생
+     */
+    @Transactional
+    public void signout(SignoutRequest signoutRequest, Long userId) {
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new InvalidRequestException("가입되지 않은 유저입니다.")
+        );
+
+        if (!passwordEncoder.matches(signoutRequest.getPassword(), user.getPassword())) {
+            throw new AuthException("비밀번호가 일치하지 않습니다.");
+        }
+
+        userRepository.delete(user);
     }
 }
