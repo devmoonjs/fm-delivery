@@ -1,5 +1,6 @@
 package com.sparta.fmdelivery.domain.shop.entitiy;
 
+import com.sparta.fmdelivery.domain.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -11,7 +12,8 @@ import java.time.LocalTime;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Shop {
+@Table(name = "shops")
+public class Shop extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +25,10 @@ public class Shop {
     @Column(nullable = false)
     private String name;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private LocalTime openedAt;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private LocalTime closedAt;
 
     private int status;
