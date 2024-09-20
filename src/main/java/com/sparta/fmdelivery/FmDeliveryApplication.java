@@ -11,5 +11,4 @@ public class FmDeliveryApplication {
     public static void main(String[] args) {
         SpringApplication.run(FmDeliveryApplication.class, args);
     }
-
 }
