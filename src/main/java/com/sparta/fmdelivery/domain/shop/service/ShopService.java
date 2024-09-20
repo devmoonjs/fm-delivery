@@ -9,6 +9,7 @@ import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
 import com.sparta.fmdelivery.domain.shop.repository.ShopRepository;
 import com.sparta.fmdelivery.domain.user.entity.User;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
+import com.sparta.fmdelivery.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ShopService {
 
     private final ShopRepository shopRepository;
+    private final UserRepository userRepository;
 
     /*
        가게 생성
@@ -31,7 +33,9 @@ public class ShopService {
 
         isValidOwner(authUser);
 
-        Shop shop = new Shop(request);
+        User user = getUserById(authUser);
+
+        Shop shop = new Shop(user, request);
 
         return ShopResponse.of(shopRepository.save(shop));
     }
@@ -86,9 +90,16 @@ public class ShopService {
     }
 
     private static void isShopOwner(AuthUser authUser, Shop shop) {
-        if (!shop.getUserId().equals(authUser.getId())) {
+        if (!shop.getUser().getId().equals(authUser.getId())) {
             throw new RuntimeException("본인 가게만 수정가능합니다.");
         }
+    }
+
+    private User getUserById(AuthUser authUser) {
+        User user = userRepository.findById(authUser.getId()).orElseThrow(
+                () -> new RuntimeException("유저가 없습니다.")
+        );
+        return user;
     }
 
     private Shop getShopById(Long id) {
