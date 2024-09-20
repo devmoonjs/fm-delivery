@@ -2,8 +2,10 @@ package com.sparta.fmdelivery.domain.auth.service;
 
 import com.sparta.fmdelivery.config.JwtUtil;
 import com.sparta.fmdelivery.config.PasswordEncoder;
+import com.sparta.fmdelivery.domain.auth.dto.request.LoginRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignupRequest;
 import com.sparta.fmdelivery.domain.auth.dto.response.SignResponse;
+import com.sparta.fmdelivery.domain.auth.exception.AuthException;
 import com.sparta.fmdelivery.domain.common.exception.InvalidRequestException;
 import com.sparta.fmdelivery.domain.user.entity.User;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@RequestMapping("/api")
 public class AuthService {
 
     private final UserRepository userRepository;
@@ -58,5 +59,29 @@ public class AuthService {
         return new SignResponse(bearerToken);
     }
 
+    /**
+     * 이메일로 사용자 조회: 입력된 이메일로 데이터베이스에서 사용자를 찾고, 없으면 예외를 발생시킵니다.
+     * 비밀번호 확인: 입력된 비밀번호와 데이터베이스에 저장된 비밀번호를 비교해, 맞지 않으면 예외를 발생시킵니다.
+     * JWT 토큰 생성: 사용자 정보로 JWT 토큰을 생성합니다.
+     * 토큰 반환: 생성된 JWT 토큰을 클라이언트에 응답으로 반환합니다.
+     * 이 코드는 로그인 요청 시 이메일과 비밀번호가 정확한지 확인한 후, 로그인 성공 시 JWT 토큰을 발급하여 클라이언트가 인증된 사용자로서 서비스를 이용할 수 있도록 합니다.
+     * @param loginRequest
+     * @return
+     */
 
+    @Transactional
+    public SignResponse login(LoginRequest loginRequest) {
+
+        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(
+                () -> new InvalidRequestException("가입되지 않은 유저입니다.")
+        );
+
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            throw new AuthException("잘못된 비밀번호입니다.");
+        }
+
+        String bearerToken = jwtUtil.createToken(user.getId(), user.getEmail(), user.getUserRole());
+
+        return new SignResponse(bearerToken);
+    }
 }

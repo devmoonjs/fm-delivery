@@ -34,7 +34,7 @@ public class JwtFilter implements Filter {
 
         String url = httpRequest.getRequestURI(); // 현재 요청된 URL 경로를 가져옴
 
-        if (url.startsWith("/auth")) {
+        if (url.startsWith("/api/v1/auth")) {
             chain.doFilter(request, response);
             return;
         }
