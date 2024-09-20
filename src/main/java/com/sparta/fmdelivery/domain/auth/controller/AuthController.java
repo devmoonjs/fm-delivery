@@ -1,5 +1,6 @@
 package com.sparta.fmdelivery.domain.auth.controller;
 
+import com.sparta.fmdelivery.domain.auth.dto.request.LoginRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignupRequest;
 import com.sparta.fmdelivery.domain.auth.dto.response.SignResponse;
 import com.sparta.fmdelivery.domain.auth.service.AuthService;
@@ -22,4 +23,8 @@ public class AuthController {
         return authService.signup(signupRequest);
     }
 
+    @PostMapping("/auth/login")
+    public SignResponse login(@Valid @RequestBody LoginRequest loginRequest) {
+        return authService.login(loginRequest);
+    }
 }
