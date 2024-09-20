@@ -1,6 +1,7 @@
 package com.sparta.fmdelivery.domain.shop.service;
 
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
+import com.sparta.fmdelivery.domain.shop.dto.request.ShopDeleteRequest;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopUpdateRequest;
 import com.sparta.fmdelivery.domain.shop.dto.response.ShopResponse;
 import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
@@ -55,9 +56,9 @@ public class ShopService {
         가게 삭제
         soft delete 로 boolean 값만 false 로 변경.
      */
-    public void deleteShop(Long shopId) {
+    public void deleteShop(ShopDeleteRequest request) {
 
-        Shop shop = getShopById(shopId);
+        Shop shop = getShopById(request.getShopId());
 
         shop.softDelete();
     }
