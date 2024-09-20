@@ -65,9 +65,12 @@ public class ShopService {
         가게 삭제
         soft delete 로 boolean 값만 false 로 변경.
      */
-    public void deleteShop(ShopDeleteRequest request) {
+    @Transactional
+    public void deleteShop(AuthUser authUser, ShopDeleteRequest request) {
 
         Shop shop = getShopById(request.getShopId());
+
+        isShopOwner(authUser, shop);
 
         shop.softDelete();
     }
@@ -90,16 +93,17 @@ public class ShopService {
     }
 
     private static void isShopOwner(AuthUser authUser, Shop shop) {
+
         if (!shop.getUser().getId().equals(authUser.getId())) {
             throw new RuntimeException("본인 가게만 수정가능합니다.");
         }
     }
 
     private User getUserById(AuthUser authUser) {
-        User user = userRepository.findById(authUser.getId()).orElseThrow(
+
+        return userRepository.findById(authUser.getId()).orElseThrow(
                 () -> new RuntimeException("유저가 없습니다.")
         );
-        return user;
     }
 
     private Shop getShopById(Long id) {
@@ -110,6 +114,7 @@ public class ShopService {
     }
 
     private static void isValidOwner(AuthUser authUser) {
+
         if (authUser.getUserRole().equals(UserRole.USER)) {
             throw new IllegalAccessError("사장님 계정만 가게 생성이 가능합니다.");
         }
