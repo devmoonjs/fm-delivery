@@ -32,7 +32,7 @@ public class JwtUtil {
      */
     private static final long TOKEN_TIME = 60 * 60 * 1000L;
 
-    @Value("${jwt.secret.key}") // 설정 파일에서 jwt.secret.key라는 키에 해당하는 값을 secretKey라는 변수에 넣는 역할을 합니다.
+    @Value("7Iqk7YyM66W07YOA7L2U65Sp7YG065+9U3ByaW5n6rCV7J2Y7Yqc7YSw7LWc7JuQ67mI7J6F64uI64ukLg==") // 설정 파일에서 jwt.secret.key라는 키에 해당하는 값을 secretKey라는 변수에 넣는 역할을 합니다.
     private String secretKey; // JWT를 서명할 때 사용하는 비밀키로, application.properties 같은 설정 파일에서 불러옵니다.
     private Key key; // secretKey 에서 생성된 서명 키. JWT 토큰을 서명하거나 검증하는 데 사용
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256; // 이는 비대칭 암호화 알고리즘으로, JWT의 무결성을 보장합니다.
