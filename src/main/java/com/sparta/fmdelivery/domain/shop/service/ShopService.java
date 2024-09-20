@@ -2,6 +2,7 @@ package com.sparta.fmdelivery.domain.shop.service;
 
 import com.sparta.fmdelivery.domain.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
+import com.sparta.fmdelivery.domain.shop.dto.request.ShopDeleteRequest;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopUpdateRequest;
 import com.sparta.fmdelivery.domain.shop.dto.response.ShopResponse;
 import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
