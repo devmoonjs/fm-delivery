@@ -19,4 +19,5 @@ public class AuthController {
     public SignResponse signup(@Valid @RequestBody SignupRequest signupRequest) {
         return authService.signup(signupRequest);
     }
+
 }
