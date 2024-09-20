@@ -22,10 +22,6 @@ public class ShopController {
 
     @PostMapping("/shops")
     public ResponseEntity<ShopResponse> createShop(@Auth AuthUser authuser, @RequestBody ShopCreateRequest request) {
-        System.out.println(authuser.getId());
-        System.out.println(authuser.getEmail());
-        System.out.println(authuser.getUserRole());
-
         return ResponseEntity.ok().body(shopService.createShop(authuser, request));
     }
 
