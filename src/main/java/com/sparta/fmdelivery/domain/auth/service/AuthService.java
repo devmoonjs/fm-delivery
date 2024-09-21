@@ -92,8 +92,9 @@ public class AuthService {
      *
      * @param signoutRequest 비밀번호를 포함한 회원 탈퇴 요청 데이터
      * @param userId 현재 로그인한 사용자의 ID
-     * @throws _NOT_FOUND_USER 가입되지 않은 유저인 경우 발생
-     * @throws _BAD_REQUEST_PASSWORD 비밀번호가 일치하지 않는 경우 발생
+     * @throws ApiException 가입되지 않은 유저인 경우 또는 비밀번호가 일치하지 않는 경우 발생
+     *  *     - ErrorStatus._NOT_FOUND_USER: 가입되지 않은 유저인 경우
+     *  *     - ErrorStatus._BAD_REQUEST_PASSWORD: 비밀번호가 일치하지 않는 경우
      */
     @Transactional
     public void signout(SignoutRequest signoutRequest, Long userId) {

@@ -19,6 +19,7 @@ public class User extends Timestamped {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
+    @Column(length = 10)
     private UserRole userRole;
 
     public User(String email, String Password, UserRole userRole) {
