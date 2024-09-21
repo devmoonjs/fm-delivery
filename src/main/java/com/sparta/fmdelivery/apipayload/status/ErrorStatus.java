@@ -21,7 +21,7 @@ public enum ErrorStatus implements BaseCode {
     _NOT_FOUND_SHOP(HttpStatus.NOT_FOUND, "404", "존재하지 않은 가게입니다."),
 
     // token
-    _NOT_FOUND_TOKEN(HttpStatus.NOT_FOUND, "404", "CICD 테스트! JWT 토큰이 필요합니다."),
+    _NOT_FOUND_TOKEN(HttpStatus.NOT_FOUND, "404", "CICD 테스트!!!!! JWT 토큰이 필요합니다."),
     _BAD_REQUEST_TOKEN(HttpStatus.BAD_REQUEST, "400", "잘못된 JWT 토큰입니다"),
     _INVALID_TOKEN(HttpStatus.BAD_REQUEST, "400", "유효하지 않은 토큰입니다"),
     _EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "400", "만료 토큰입니다"),
