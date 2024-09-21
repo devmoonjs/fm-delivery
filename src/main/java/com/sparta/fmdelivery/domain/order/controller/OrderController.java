@@ -1,5 +1,6 @@
 package com.sparta.fmdelivery.domain.order.controller;
 
+import com.sparta.fmdelivery.apipayload.ApiResponse;
 import com.sparta.fmdelivery.domain.common.annotation.Auth;
 import com.sparta.fmdelivery.domain.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.order.dto.request.OrderRequest;
@@ -21,25 +22,25 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(@Auth AuthUser authUser,
-                                                     @RequestBody OrderRequest orderRequest) {
-        return ResponseEntity.ok(orderService.saveOrder(authUser, orderRequest));
+    public ApiResponse<OrderResponse> createOrder(@Auth AuthUser authUser,
+                                                  @RequestBody OrderRequest orderRequest) {
+        return ApiResponse.onSuccess(orderService.saveOrder(authUser, orderRequest));
     }
 
     @PatchMapping("/{orderId}")
-    public ResponseEntity<OrderResponse> acceptOrder(@Auth AuthUser authUser,
+    public ApiResponse<OrderResponse> acceptOrder(@Auth AuthUser authUser,
                                                      @PathVariable Long orderId) {
-        return ResponseEntity.ok(orderService.updateOrder(authUser, orderId));
+        return ApiResponse.onSuccess(orderService.updateOrder(authUser, orderId));
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderListResponse>> getAllOrders(@Auth AuthUser authUser) {
-        return ResponseEntity.ok(orderService.getAllOrders(authUser));
+    public ApiResponse<List<OrderListResponse>> getAllOrders(@Auth AuthUser authUser) {
+        return ApiResponse.onSuccess(orderService.getAllOrders(authUser));
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderDetailResponse> getOrder(@Auth AuthUser authUser,
+    public ApiResponse<OrderDetailResponse> getOrder(@Auth AuthUser authUser,
                                                         @PathVariable Long orderId) {
-        return ResponseEntity.ok(orderService.getOrder(authUser, orderId));
+        return ApiResponse.onSuccess(orderService.getOrder(authUser, orderId));
     }
 }
