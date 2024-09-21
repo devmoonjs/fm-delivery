@@ -1,19 +1,19 @@
 package com.sparta.fmdelivery.domain.auth.service;
 
+import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
 import com.sparta.fmdelivery.config.JwtUtil;
 import com.sparta.fmdelivery.config.PasswordEncoder;
 import com.sparta.fmdelivery.domain.auth.dto.request.LoginRequest;
+import com.sparta.fmdelivery.domain.auth.dto.request.SignoutRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignupRequest;
 import com.sparta.fmdelivery.domain.auth.dto.response.SignResponse;
-import com.sparta.fmdelivery.domain.auth.exception.AuthException;
-import com.sparta.fmdelivery.domain.common.exception.InvalidRequestException;
 import com.sparta.fmdelivery.domain.user.entity.User;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
 import com.sparta.fmdelivery.domain.user.repository.UserRepository;
+import com.sparta.fmdelivery.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class AuthService {
     public SignResponse signup(SignupRequest signupRequest) {
 
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            throw new InvalidRequestException("이미 존재하는 이메일입니다.");
+            throw new ApiException(ErrorStatus._BAD_REQUEST_EMAIL);
         }
 
         String encodedPassword = passwordEncoder.encode(signupRequest.getPassword());
@@ -73,15 +73,39 @@ public class AuthService {
     public SignResponse login(LoginRequest loginRequest) {
 
         User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(
-                () -> new InvalidRequestException("가입되지 않은 유저입니다.")
+                () -> new ApiException(ErrorStatus._NOT_FOUND_USER)
         );
 
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new AuthException("잘못된 비밀번호입니다.");
+            throw new ApiException(ErrorStatus._BAD_REQUEST_PASSWORD);
         }
 
         String bearerToken = jwtUtil.createToken(user.getId(), user.getEmail(), user.getUserRole());
 
         return new SignResponse(bearerToken);
+    }
+
+    /**
+     * 회원 탈퇴 메서드:
+     * - 요청된 비밀번호가 일치하는지 확인한 후, 일치하면 회원 탈퇴를 처리합니다.
+     * - 비밀번호가 일치하지 않으면 예외를 발생시킵니다.
+     *
+     * @param signoutRequest 비밀번호를 포함한 회원 탈퇴 요청 데이터
+     * @param userId 현재 로그인한 사용자의 ID
+     * @throws _NOT_FOUND_USER 가입되지 않은 유저인 경우 발생
+     * @throws _BAD_REQUEST_PASSWORD 비밀번호가 일치하지 않는 경우 발생
+     */
+    @Transactional
+    public void signout(SignoutRequest signoutRequest, Long userId) {
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ApiException(ErrorStatus._NOT_FOUND_USER)
+        );
+
+        if (!passwordEncoder.matches(signoutRequest.getPassword(), user.getPassword())) {
+            throw new ApiException(ErrorStatus._BAD_REQUEST_PASSWORD);
+        }
+
+        userRepository.delete(user);
     }
 }

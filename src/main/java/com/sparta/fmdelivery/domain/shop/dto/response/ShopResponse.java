@@ -21,7 +21,7 @@ public class ShopResponse {
     public static ShopResponse of(Shop shop) {
         return new ShopResponse(
                 shop.getId(),
-                shop.getUserId(),
+                shop.getUser().getId(),
                 shop.getName(),
                 shop.getOpenedAt(),
                 shop.getClosedAt()

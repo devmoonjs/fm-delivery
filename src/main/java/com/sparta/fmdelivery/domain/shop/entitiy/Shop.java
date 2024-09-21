@@ -2,6 +2,7 @@ package com.sparta.fmdelivery.domain.shop.entitiy;
 
 import com.sparta.fmdelivery.domain.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
+import com.sparta.fmdelivery.domain.user.entity.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,8 +20,9 @@ public class Shop extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(nullable = false)
     private String name;
@@ -39,17 +41,8 @@ public class Shop extends Timestamped {
     @Column(nullable = false)
     private boolean isDeleted = false;
 
-    public Shop(String name, LocalTime openedAt, LocalTime closedAt, int minAmount) {
-        this.userId = userId;
-        this.name = name;
-        this.openedAt = openedAt;
-        this.closedAt = closedAt;
-        status = 1;
-        this.minAmount = minAmount;
-    }
-
-    public Shop(ShopCreateRequest request) {
-
+    public Shop(User user, ShopCreateRequest request) {
+        this.user = user;
         this.name = request.getName();
         this.openedAt = request.getOpenedAt();
         this.closedAt = request.getClosedAt();

@@ -1,12 +1,14 @@
 package com.sparta.fmdelivery.config;
 
-import com.sparta.fmdelivery.domain.user.enums.UserRole;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.fmdelivery.apipayload.ApiResponse;
+import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import jakarta.servlet.*;
 import jakarta.servlet.FilterConfig;
+import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +47,7 @@ public class JwtFilter implements Filter {
         // 클라이언트가 보낸 Authorization 헤더에서 JWT 토큰을 가져옴
         String bearerJwt = httpRequest.getHeader("Authorization");
         if (bearerJwt == null) {
-            httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "JWT 토큰이 필요합니다.");
+            jwtExceptionHandler(httpResponse, ErrorStatus._NOT_FOUND_TOKEN);
             return;
         }
         // JWT 토큰이 없으면, 400에러 반환
@@ -56,13 +58,10 @@ public class JwtFilter implements Filter {
         try {
             Claims claims = jwtUtil.extractClaims(jwt);
             if (claims == null) {
-                httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "잘못된 JWT 토큰입니다");
+                jwtExceptionHandler(httpResponse, ErrorStatus._BAD_REQUEST_TOKEN);
                 return;
             }
             // 클레임 정보가 없거나 잘못된 경우, 400 에러 반환
-
-            // JWT 토큰의 클레임에서 UserRole 값을 추출 -> enum 값으로 변환
-            UserRole userRole = UserRole.valueOf(claims.get("userRole", String.class));
 
             // 사용자 ID, 이메일, 역할 정보를 HTTP 요청 객체에 속성으로 설정하여 이후 로직에서 참조할 수 있게 만듬
             httpRequest.setAttribute("userId", Long.parseLong(claims.getSubject()));
@@ -73,16 +72,16 @@ public class JwtFilter implements Filter {
 
         } catch (SecurityException | MalformedJwtException e) {
             log.error("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.", e);
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않는 JWT 서명입니다.");
+            jwtExceptionHandler(httpResponse, ErrorStatus._INVALID_TOKEN);
         } catch (ExpiredJwtException e) {
             log.error("Expired JWT token, 지원되지 않는 JWT 토큰 입니다.", e);
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "만료된 JWT 토큰입니다.");
+            jwtExceptionHandler(httpResponse, ErrorStatus._EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
             log.error("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.", e);
-            httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "지원되지 않는 JWT 토큰입니다.");
+            jwtExceptionHandler(httpResponse, ErrorStatus._UNSUPPORTED_TOKEN);
         } catch (Exception e) {
             log.error("Invalid JWT token, 유효하지 않는 JWT 토큰 입니다.", e);
-            httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "유효하지 않는 JWT 토큰입니다.");
+            jwtExceptionHandler(httpResponse, ErrorStatus._EXCEPTION_ERROR_TOKEN);
         }
     }
 
@@ -90,5 +89,19 @@ public class JwtFilter implements Filter {
     @Override
     public void destroy() {
         Filter.super.destroy();
+    }
+
+    public void jwtExceptionHandler(HttpServletResponse response, ErrorStatus errorStatus) {
+        ObjectMapper mapper = new ObjectMapper();
+        response.setStatus(Integer.parseInt(errorStatus.getStatusCode()));
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            ApiResponse<String> responseMessage = ApiResponse.onFailure(errorStatus);
+            response.getWriter().write(mapper.writeValueAsString(responseMessage));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 }
