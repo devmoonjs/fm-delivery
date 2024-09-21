@@ -45,6 +45,9 @@ dependencies {
     // JSON 파싱
     implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
     implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
