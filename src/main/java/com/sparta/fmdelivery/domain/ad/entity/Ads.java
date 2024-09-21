@@ -31,4 +31,7 @@ public class Ads extends Timestamped {
         this.status = status;
     }
 
+    public void update(boolean status) {
+        this.status = status;
+    }
 }
