@@ -52,15 +52,33 @@ public class ShopService {
         return ShopResponse.of(getShopById(id));
     }
 
-    /*
-       가게 리스트 조회하기
+    /**
+     * 가게 목록 조회: 광고 가게가 먼저나오고, 일반 가게가 나오는 방식
+     * @return
      */
     public List<ShopResponse> getShopList() {
 
-        List<Shop> shopList = shopRepository.findAll();
+        // 광고 가게 리스트 먼저 조회 (@Query 활용)
+        List<Shop> adShops = shopRepository.findAdShops();
+        // 일반 가게 리스트 조회
+        List<Shop> regularShops = shopRepository.findRegularShops();
 
-        return new ArrayList<>(shopList.stream()
-                .map(ShopResponse::of).toList());
+        // 광고 가게 응답 리스트
+        List<ShopResponse> adShopResponses = adShops.stream()
+                .map(ShopResponse::of)
+                .toList();
+
+        // 일반 가게 응답 리스트
+        List<ShopResponse> regularShopResponses = regularShops.stream()
+                .map(ShopResponse::of)
+                .toList();
+
+        // 광고 가게와 일반 가게 리스트 합치기
+        List<ShopResponse> result = new ArrayList<>();
+        result.addAll(adShopResponses); // 광고 가게들이 먼저
+        result.addAll(regularShopResponses);
+
+        return result;
     }
 
     /*
