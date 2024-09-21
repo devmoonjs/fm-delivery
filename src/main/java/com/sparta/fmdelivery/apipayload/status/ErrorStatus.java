@@ -30,7 +30,8 @@ public enum ErrorStatus implements BaseCode {
     _INVALID_USER_ROLE(HttpStatus.BAD_REQUEST, "400", "유효하지 않은 User Role"),
 
     // ad
-    _FORBIDDEN(HttpStatus.FORBIDDEN, "403", "접근이 금지되었습니다. 접근 권한이 없습니다.");
+    _FORBIDDEN(HttpStatus.FORBIDDEN, "403", "접근이 금지되었습니다. 접근 권한이 없습니다."),
+    _NOT_FOUND_AD(HttpStatus.NOT_FOUND, "404", "광고를 찾을 수 없습니다.");
 
     private HttpStatus httpStatus;
     private String statusCode;
