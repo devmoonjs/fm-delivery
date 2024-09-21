@@ -1,7 +1,9 @@
 package com.sparta.fmdelivery.domain.ad.service;
 
 import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
+import com.sparta.fmdelivery.domain.ad.dto.request.AdChangeRequest;
 import com.sparta.fmdelivery.domain.ad.dto.request.AdSaveRequest;
+import com.sparta.fmdelivery.domain.ad.dto.response.AdChangeResponse;
 import com.sparta.fmdelivery.domain.ad.dto.response.AdResponse;
 import com.sparta.fmdelivery.domain.ad.entity.Ads;
 import com.sparta.fmdelivery.domain.ad.repository.AdRepository;
@@ -41,6 +43,26 @@ public class AdService {
                 savedAd.isStatus() ? "활성" : "비활성",
                 savedAd.getStartDate(),
                 savedAd.getEndDate()
+        );
+    }
+
+    @Transactional
+    public AdChangeResponse updateAd(AuthUser authUser, Long adId, AdChangeRequest adChangeRequest) {
+        validateAdminRole(authUser);
+
+        Ads ads = adRepository.findById(adId).orElseThrow(
+                () -> new ApiException(ErrorStatus._NOT_FOUND_AD)
+        );
+
+        ads.update(adChangeRequest.isStatus());
+
+        return new AdChangeResponse(
+                ads.getId(),
+                ads.getShopId(),
+                "광고 상태 변경",
+                ads.isStatus() ? "활성" : "비활성",
+                ads.getStartDate(),
+                ads.getEndDate()
         );
     }
 
