@@ -1,7 +1,5 @@
 package com.sparta.fmdelivery.apipayload.dto;
 
-import com.sparta.fmdelivery.apipayload.status.SuccessStatus;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
