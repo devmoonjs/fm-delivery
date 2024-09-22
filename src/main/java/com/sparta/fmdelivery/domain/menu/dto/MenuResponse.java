@@ -16,7 +16,7 @@ public class MenuResponse {
     public static MenuResponse fromEntity(Menu menu) {
         return new MenuResponse(
                 menu.getId(),
-                menu.getShopId(),
+                menu.getShop().getId(),
                 menu.getName(),
                 menu.getPrice(),
                 menu.getStatus()

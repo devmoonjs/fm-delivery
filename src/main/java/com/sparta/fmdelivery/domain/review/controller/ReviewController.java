@@ -1,5 +1,6 @@
 package com.sparta.fmdelivery.domain.review.controller;
 
+import com.sparta.fmdelivery.apipayload.ApiResponse;
 import com.sparta.fmdelivery.domain.common.annotation.Auth;
 import com.sparta.fmdelivery.domain.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.review.dto.ReviewRequest;
@@ -19,28 +20,28 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/reviews")
-    public ResponseEntity<ReviewResponse> createReview(@Auth AuthUser authUser, @RequestBody ReviewRequest request) {
-        return ResponseEntity.ok(reviewService.createReview(authUser, request));
+    public ApiResponse<ReviewResponse> createReview(@Auth AuthUser authUser, @RequestBody ReviewRequest request) {
+        return ApiResponse.onSuccess(reviewService.createReview(authUser, request));
     }
 
     @GetMapping("/reviews/{reviewId}")
-    public ResponseEntity<ReviewResponse> getReview(@PathVariable Long reviewId) {
-        return ResponseEntity.ok(reviewService.getReview(reviewId));
+    public ApiResponse<ReviewResponse> getReview(@PathVariable Long reviewId) {
+        return ApiResponse.onSuccess(reviewService.getReview(reviewId));
     }
 
     @GetMapping("/reviews")
-    public ResponseEntity<List<ReviewResponse>> getReviews(@RequestParam("shop_id") Long shopId) {
-        return ResponseEntity.ok(reviewService.getReviews(shopId));
+    public ApiResponse<List<ReviewResponse>> getReviews(@RequestParam("shop_id") Long shopId) {
+        return ApiResponse.onSuccess(reviewService.getReviews(shopId));
     }
 
     @PutMapping("/reviews/{reviewId}")
-    public ResponseEntity<ReviewResponse> updateReview(@Auth AuthUser authUser, @PathVariable Long reviewId, @RequestBody ReviewRequest request) {
-        return ResponseEntity.ok(reviewService.updateReview(authUser, reviewId, request));
+    public ApiResponse<ReviewResponse> updateReview(@Auth AuthUser authUser, @PathVariable Long reviewId, @RequestBody ReviewRequest request) {
+        return ApiResponse.onSuccess(reviewService.updateReview(authUser, reviewId, request));
     }
 
     @DeleteMapping("/reviews/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@Auth AuthUser authUser, @PathVariable Long reviewId) {
+    public ApiResponse<String> deleteReview(@Auth AuthUser authUser, @PathVariable Long reviewId) {
         reviewService.deleteReview(authUser, reviewId);
-        return ResponseEntity.noContent().build(); // 성공 시 204 No Content 반환
+        return ApiResponse.onSuccess("리뷰가 삭제되었습니다.");
     }
 }
