@@ -1,6 +1,8 @@
 package com.sparta.fmdelivery.domain.order.entity;
 
 import com.sparta.fmdelivery.domain.common.entity.Timestamped;
+import com.sparta.fmdelivery.domain.order.pojo.MenuIdList;
+import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,13 +21,15 @@ public class OrderMenu extends Timestamped {
     private Long id;
 
     @Type(JsonType.class)
-    @Column(name = "menu_id_list", nullable = false)
-    private List<Long> menuIdList;
+    @Column(name = "menu_id_list", nullable = false, columnDefinition = "JSON")
+    private List<MenuIdList> menuIdList;
 
     @OneToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    // 가게기능(예서님) 구현 후  추가
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id", nullable = false)
+    private Shop shop;
 
 }
