@@ -20,14 +20,26 @@ public enum ErrorStatus implements BaseCode {
     _BAD_REQUEST_UPDATE_SHOP(HttpStatus.BAD_REQUEST, "400", "본인 가게만 수정이 가능합니다."),
     _NOT_FOUND_SHOP(HttpStatus.NOT_FOUND, "404", "존재하지 않은 가게입니다."),
 
+    // menu
+    _NOT_FOUND_MENU(HttpStatus.NOT_FOUND, "404", "존재하지 않는 메뉴입니다."),
+
+    // review
+    _NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "404", "존재하지 않는 리뷰입니다."),
+    _NOT_FOUND_ORDER(HttpStatus.NOT_FOUND, "404", "존재하지 않는 주문입니다."),
+    _BAD_REQUEST_UPDATE_REVIEW(HttpStatus.BAD_REQUEST, "400", "본인의 리뷰만 수정할 수 있습니다."),
+
     // token
-    _NOT_FOUND_TOKEN(HttpStatus.NOT_FOUND, "404", "JWT 토큰이 필요합니다."),
+    _NOT_FOUND_TOKEN(HttpStatus.NOT_FOUND, "404", "CICD 테스트!!!!! JWT 토큰이 필요합니다."),
     _BAD_REQUEST_TOKEN(HttpStatus.BAD_REQUEST, "400", "잘못된 JWT 토큰입니다"),
     _INVALID_TOKEN(HttpStatus.BAD_REQUEST, "400", "유효하지 않은 토큰입니다"),
     _EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "400", "만료 토큰입니다"),
     _UNSUPPORTED_TOKEN(HttpStatus.BAD_REQUEST, "400", "지원하지 않는 토큰입니다"),
     _EXCEPTION_ERROR_TOKEN(HttpStatus.BAD_REQUEST, "400", "토큰 검증 중 오류가 발생했습니다."),
-    _INVALID_USER_ROLE(HttpStatus.BAD_REQUEST, "400", "유효하지 않은 User Role");
+    _INVALID_USER_ROLE(HttpStatus.BAD_REQUEST, "400", "유효하지 않은 User Role"),
+
+    // ad
+    _FORBIDDEN(HttpStatus.FORBIDDEN, "403", "접근이 금지되었습니다. 접근 권한이 없습니다."),
+    _NOT_FOUND_AD(HttpStatus.NOT_FOUND, "404", "광고를 찾을 수 없습니다.");
 
     private HttpStatus httpStatus;
     private String statusCode;
