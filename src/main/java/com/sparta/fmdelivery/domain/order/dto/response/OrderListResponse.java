@@ -16,7 +16,7 @@ public class OrderListResponse {
     private final LocalDateTime orderDate;
     private final OrderStatus status;
 
-    public OrderListResponse fromEntity(Order order, String shopName) {
+    public static OrderListResponse fromEntity(Order order, String shopName) {
         return new OrderListResponse(
                 order.getId(),
                 shopName,

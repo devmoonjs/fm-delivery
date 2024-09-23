@@ -7,7 +7,9 @@ import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
 import com.sparta.fmdelivery.domain.menu.dto.MenuResponse;
 import com.sparta.fmdelivery.domain.menu.service.MenuService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,9 +20,13 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @PostMapping("/menus")
-    public ApiResponse<MenuResponse> createMenu(@Auth AuthUser authUser, @RequestBody MenuRequest request) {
-        return ApiResponse.onSuccess(menuService.createMenu(authUser, request));
+    @PostMapping(value = "/menus", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<MenuResponse> createMenu(
+            @Auth AuthUser authUser,
+            @RequestPart("request") MenuRequest request,
+            @RequestParam("image") MultipartFile image) {
+
+        return ApiResponse.onSuccess(menuService.createMenu(authUser, request, image));
     }
 
     @GetMapping("/menus")
@@ -28,9 +34,13 @@ public class MenuController {
         return ApiResponse.onSuccess(menuService.getMenus(shopId));
     }
 
-    @PutMapping("/menus/{menuId}")
-    public ApiResponse<MenuResponse> updateMenu(@Auth AuthUser authUser, @PathVariable Long menuId, @RequestBody MenuRequest request) {
-        return ApiResponse.onSuccess(menuService.updateMenu(authUser, menuId, request));
+    @PutMapping(value = "/menus/{menuId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<MenuResponse> updateMenu(
+            @Auth AuthUser authUser,
+            @PathVariable Long menuId,
+            @RequestPart("request") MenuRequest request,
+            @RequestPart(value = "image", required = false) MultipartFile image) {
+        return ApiResponse.onSuccess(menuService.updateMenu(authUser, menuId, request, image));
     }
 
     @DeleteMapping("/menus")
