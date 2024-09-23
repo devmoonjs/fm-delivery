@@ -33,6 +33,7 @@ public class CartService {
 
     public CartResponse saveCart(AuthUser authUser, CartRequest request) {
 
+
         User user = getUserById(authUser);
         Shop shop = getShopById(request.getShopId());
         Cart cart = cartRepository.findById(authUser.getId()).orElse(null);

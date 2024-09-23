@@ -48,6 +48,12 @@ public class OrderService {
     private final OrderMenuRepository orderMenuRepository;
     private final PointHistoryRepository pointHistoryRepository;
 
+    /**
+     * 주문 저장 기능
+     * @param authUser : 사용자 정보
+     * @param orderRequest : 주문 정보
+     * @return OrderResponse : 주문 id, 가게 id
+     */
     @Transactional
     public OrderResponse saveOrder(AuthUser authUser, OrderRequest orderRequest) {
 
@@ -86,6 +92,7 @@ public class OrderService {
                     .findTopByUserIdOrderByCreatedAtDesc(user.getId()).orElseThrow(
                             ()-> new ApiException(ErrorStatus._NOT_FOUND_POINT_HISTORY));
             int userAmount = prePoint.getPoint();
+
             // 포인트 기록 생성
             PointHistory pointHistory = new PointHistory(
                     orderRequest.getUsedPoint(),
@@ -101,6 +108,7 @@ public class OrderService {
         // response DTO 생성 및 반환
         return new OrderResponse(order.getId(), shop.getId());
     }
+
 
 
     @Transactional
@@ -135,6 +143,7 @@ public class OrderService {
                     .findTopByUserIdOrderByCreatedAtDesc(order.getUser().getId()).orElseThrow(
                             ()-> new ApiException(ErrorStatus._NOT_FOUND_POINT_HISTORY));
             int userAmount = prePoint.getPoint();
+
             // 적립 포인트
             int point = (int) Math.round(order.getTotalPrice() * 0.03);
             // 포인트 기록 생성
@@ -177,12 +186,12 @@ public class OrderService {
         return orderListResponses;
     }
 
-
     public OrderDetailResponse getOrder(Long orderId) {
 
         Order order = getOrderById(orderId);
         OrderMenu orderMenu = getOrderMenuByOrderId(orderId);
         Shop shop = getShopById(orderMenu.getShop().getId());
+
 
         // shop, SimpleMenu, order -> OrderDetailResponse 생성
         List<SimpleMenu> simpleMenuList = orderMenu.getMenuIdList().stream()
