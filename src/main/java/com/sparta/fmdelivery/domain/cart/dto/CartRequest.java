@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class CartRequest {
     private Long shopId;
     private Long menuId;
+    private int count;
 }
