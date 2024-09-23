@@ -3,7 +3,6 @@ package com.sparta.fmdelivery.domain.shop.entitiy;
 import com.sparta.fmdelivery.domain.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
 import com.sparta.fmdelivery.domain.user.entity.User;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
