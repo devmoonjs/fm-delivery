@@ -28,12 +28,6 @@ public class OrderService {
     public OrderResponse saveOrder(AuthUser authUser, OrderRequest orderRequest) {
 
         /*
-        최우선 순위!!!!!!!
-        레디스 엘라스틱 서치에 올리는 방법 알고 올리기
-        스프링부트에서 엘라스틱 서치에 올라간 레디스 어떻게 연결하는지.
-        레디스에서 어떻게 값을 가져오고 저장하고 하는지
-        */
-        /*
         orderRequest : {
             "payMethod" : "CARD",
             "totalPrice" : 10000,

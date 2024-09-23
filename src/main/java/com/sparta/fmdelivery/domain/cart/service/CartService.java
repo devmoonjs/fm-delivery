@@ -40,7 +40,7 @@ public class CartService {
 
         User user = getUserById(authUser);              // 사용자 확인
         Shop shop = getShopById(request.getShopId());   // 가게 확인
-        Cart cart = getCartById(user.getId());          // 해당 사용자의 장바구니가 존재하는지 확인
+        Cart cart = cartRepository.findById(authUser.getId()).orElse(null);          // 해당 사용자의 장바구니가 존재하는지 확인
 
         if(cart == null) {
             // 기존 장바구니가 없을 경우 - cart 생성
