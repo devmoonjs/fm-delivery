@@ -31,7 +31,7 @@ public class JwtUtil {
     TOKEN_TIME: JWT 토큰의 유효 기간을 설정하는 상수로, 1시간(60분)을 밀리초로 표현한 값입니다.
     이 시간 동안만 토큰이 유효하며, 시간이 지나면 토큰은 만료됩니다.
      */
-    private static final long TOKEN_TIME = 60 * 60 * 1000L;
+    private static final long TOKEN_TIME = 180 * 60 * 1000L;
 
     @Value("${jwt.secret.key}")
     private String secretKey; // JWT를 서명할 때 사용하는 비밀키로, application.properties 같은 설정 파일에서 불러옵니다.

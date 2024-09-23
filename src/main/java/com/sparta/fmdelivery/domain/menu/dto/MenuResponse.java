@@ -12,6 +12,7 @@ public class MenuResponse {
     private final String name;
     private final int price;
     private final int status;
+    private final String imageUrl;
 
     public static MenuResponse fromEntity(Menu menu) {
         return new MenuResponse(
@@ -19,7 +20,8 @@ public class MenuResponse {
                 menu.getShop().getId(),
                 menu.getName(),
                 menu.getPrice(),
-                menu.getStatus()
+                menu.getStatus(),
+                menu.getImageUrl()
         );
     }
 }

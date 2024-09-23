@@ -22,6 +22,7 @@ public enum ErrorStatus implements BaseCode {
 
     // menu
     _NOT_FOUND_MENU(HttpStatus.NOT_FOUND, "404", "존재하지 않는 메뉴입니다."),
+    _FILE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "500", "내부 서버 오류로 이미지를 업로드 할 수 없습니다."),
 
     // cart
     _NOT_FOUND_CART(HttpStatus.NOT_FOUND, "404", "존재하지 않는 장바구니입니다."),
