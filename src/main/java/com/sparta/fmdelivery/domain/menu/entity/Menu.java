@@ -4,6 +4,7 @@ import com.sparta.fmdelivery.domain.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
 import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,13 @@ public class Menu extends Timestamped {
     private String name;
     private int price;
     private int status;
+
+    public Menu(Shop shop, String name, int price, int status) {
+        this.shop = shop;
+        this.name = name;
+        this.price = price;
+        this.status = status;
+    }
 
     public Menu(MenuRequest request, Shop shop) {
         this.shop = shop;  // Shop 엔티티를 할당
