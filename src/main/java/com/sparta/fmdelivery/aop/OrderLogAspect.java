@@ -21,7 +21,8 @@ public class OrderLogAspect {
     }
 
     @Pointcut("execution(* com.sparta.fmdelivery.domain.order.controller.OrderController.createOrder(..)) || " +
-            "execution(* com.sparta.fmdelivery.domain.order.controller.OrderController.acceptOrder(..))")
+            "execution(* com.sparta.fmdelivery.domain.order.controller.OrderController.acceptOrder(..)) || " +
+            "execution(* com.sparta.fmdelivery.domain.order.controller.OrderController.updateOrderStatus(..))")
     private void orderMethods() {}
 
     @Around("orderMethods()")
