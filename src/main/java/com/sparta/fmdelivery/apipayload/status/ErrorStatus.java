@@ -26,6 +26,15 @@ public enum ErrorStatus implements BaseCode {
     // cart
     _NOT_FOUND_CART(HttpStatus.NOT_FOUND, "404", "존재하지 않는 장바구니입니다."),
 
+    // order
+    _BAD_REQUEST_ORDER_AMOUNT(HttpStatus.BAD_REQUEST, "400", "최소 주문금액을 넘지 않습니다."),
+    _BAD_REQUEST_ORDER_TIME(HttpStatus.BAD_REQUEST, "400", "가게 주문 시간이 아닙니다."),
+    _INVALID_PAYMENT_METHOD(HttpStatus.BAD_REQUEST, "400", "유효하지 않은 결제 방법입니다."),
+    _INVALID_ORDER_STATUS(HttpStatus.BAD_REQUEST, "400", "유효하지 않은 주문 상태입니다."),
+    _BAD_REQUEST_UPDATE_STATUS(HttpStatus.BAD_REQUEST, "400", "사장님 계정만 주문 상태 변경이 가능합니다."),
+    _NOT_FOUND_ORDER_LIST(HttpStatus.BAD_REQUEST, "404", "주문 목록이 존재하지 않습니다."),
+    _NOT_FOUND_ORDER_MENU_LIST(HttpStatus.BAD_REQUEST, "404", "주문-메뉴 목록이 존재하지 않습니다."),
+
     // review
     _NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "404", "존재하지 않는 리뷰입니다."),
     _NOT_FOUND_ORDER(HttpStatus.NOT_FOUND, "404", "존재하지 않는 주문입니다."),
