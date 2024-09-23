@@ -35,6 +35,8 @@ public enum ErrorStatus implements BaseCode {
     _BAD_REQUEST_UPDATE_STATUS(HttpStatus.BAD_REQUEST, "400", "사장님 계정만 주문 상태 변경이 가능합니다."),
     _NOT_FOUND_ORDER_LIST(HttpStatus.BAD_REQUEST, "404", "주문 목록이 존재하지 않습니다."),
     _NOT_FOUND_ORDER_MENU_LIST(HttpStatus.BAD_REQUEST, "404", "주문-메뉴 목록이 존재하지 않습니다."),
+    _NOT_FOUND_POINT_HISTORY(HttpStatus.BAD_REQUEST, "404", "포인트 기록이 존재하지 않습니다."),
+
 
     // review
     _NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "404", "존재하지 않는 리뷰입니다."),
