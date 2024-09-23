@@ -25,16 +25,21 @@ public class Menu extends Timestamped {
     private int price;
     private int status;
 
-    public Menu(MenuRequest request, Shop shop) {
+    @Column(name = "img_url")
+    private String imageUrl;
+
+    public Menu(MenuRequest request, Shop shop, String imageUrl) {
         this.shop = shop;  // Shop 엔티티를 할당
         this.name = request.getName();
         this.price = request.getPrice();
         this.status = request.getStatus();
+        this.imageUrl = imageUrl;
     }
 
-    public void updateName(String name, int price, int status) {
+    public void updateMenu(String name, int price, int status, String imageUrl) {
         this.name = name;
         this.price = price;
         this.status = status;
+        this.imageUrl = imageUrl;
     }
 }

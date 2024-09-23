@@ -13,6 +13,7 @@ public class ReviewResponse {
     private Long shopId;
     private int rating;
     private String content;
+    private String imageUrl;
 
     public static ReviewResponse fromEntity(Review review) {
         return new ReviewResponse(
@@ -20,7 +21,8 @@ public class ReviewResponse {
                 review.getOrder().getId(),
                 review.getShop().getId(),
                 review.getRating(),
-                review.getContent()
+                review.getContent(),
+                review.getImageUrl()
         );
     }
 }
