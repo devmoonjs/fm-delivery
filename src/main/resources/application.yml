@@ -3,7 +3,6 @@ spring:
     active: local
 ---
 
-# ?? ?? (?? ????? ??)
 spring:
   application:
     name: fm-delivery
@@ -22,7 +21,6 @@ jwt:
     key: 7Iqk7YyM66W07YOA7L2U65Sp7YG065+9U3ByaW5n6rCV7J2Y7Yqc7YSw7LWc7JuQ67mI7J6F64uI64ukLg==
 
 ---
-# local ??? ??
 spring:
   config:
     activate:
@@ -39,14 +37,13 @@ spring:
       ddl-auto: update
 
 ---
-# prod ??? ??
 spring:
   config:
     activate:
       on-profile: prod
 
   datasource:
-    url: jdbc:mysql://db-fm-server.cdsowokk0x7l.ap-northeast-2.rds.amazonaws.com:3306/fm_server  # RDS ????? ??
+    url: jdbc:mysql://db-fm-server.cdsowokk0x7l.ap-northeast-2.rds.amazonaws.com:3306/fm_server
     username: admin
     password: fm_server
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -56,4 +53,4 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect  # MySQL? Dialect ??
+        dialect: org.hibernate.dialect.MySQLDialect
