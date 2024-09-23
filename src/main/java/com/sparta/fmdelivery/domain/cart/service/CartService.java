@@ -30,17 +30,12 @@ public class CartService {
     private final ShopRepository shopRepository;
     private final MenuRepository menuRepository;
 
-    /**
-     * 장바구니에 메뉴 추가 기능
-     * @param authUser : 사용자 정보
-     * @param request : shopId, menuId, count 정보
-     * @return CartResponse : 장바구니에 담긴 식당과 메뉴 정보
-     */
+
     public CartResponse saveCart(AuthUser authUser, CartRequest request) {
 
-        User user = getUserById(authUser);              // 사용자 확인
-        Shop shop = getShopById(request.getShopId());   // 가게 확인
-        Cart cart = cartRepository.findById(authUser.getId()).orElse(null);          // 해당 사용자의 장바구니가 존재하는지 확인
+        User user = getUserById(authUser);
+        Shop shop = getShopById(request.getShopId());
+        Cart cart = cartRepository.findById(authUser.getId()).orElse(null);
 
         if(cart == null) {
             // 기존 장바구니가 없을 경우 - cart 생성
@@ -72,11 +67,7 @@ public class CartService {
         return getCartResponse(shop, cart);     // response DTO 생성 및 반환
     }
 
-    /**
-     * 장바구니의 조회 기능
-     * @param authUser : 사용자 정보
-     * @return CartResponse : 장바구니에 담긴 식당과 메뉴 정보
-     */
+
     public CartResponse getCart(AuthUser authUser) {
 
         User user = getUserById(authUser);  // 사용자 확인
@@ -87,10 +78,7 @@ public class CartService {
         return getCartResponse(shop, cart);
     }
 
-    /**
-     * 장바구니 삭제 기능
-     * @param authUser : 사용자 정보
-     */
+
     public void delete(AuthUser authUser) {
 
         User user = getUserById(authUser);  // 사용자 확인
@@ -127,7 +115,7 @@ public class CartService {
         );
     }
 
-    // Shop ,Cart 객체를 받아 CartResponse 객체를 생성 및 반환하는 메서드
+
     private CartResponse getCartResponse(Shop shop, Cart cart) {
 
         List<SimpleMenu> simpleMenuList = cart.getMenu().stream()

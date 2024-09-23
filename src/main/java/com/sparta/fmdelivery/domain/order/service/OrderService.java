@@ -48,12 +48,6 @@ public class OrderService {
     private final OrderMenuRepository orderMenuRepository;
     private final PointHistoryRepository pointHistoryRepository;
 
-    /**
-     * 주문 저장 기능
-     * @param authUser : 사용자 정보
-     * @param orderRequest : 주문 정보
-     * @return OrderResponse : 주문 id, 가게 id
-     */
     @Transactional
     public OrderResponse saveOrder(AuthUser authUser, OrderRequest orderRequest) {
 
@@ -88,9 +82,10 @@ public class OrderService {
         // 사용 포인트가 0이 아닌 경우(포인트 사용)
         if(orderRequest.getUsedPoint() != 0){
             // 사용자의 기존 포인트
-            int userAmount = pointHistoryRepository
-                    .findTopByUserIdOrderByCreatedAtDesc(user.getId())
-                    .orElse(0);
+            PointHistory prePoint = pointHistoryRepository
+                    .findTopByUserIdOrderByCreatedAtDesc(user.getId()).orElseThrow(
+                            ()-> new ApiException(ErrorStatus._NOT_FOUND_POINT_HISTORY));
+            int userAmount = prePoint.getPoint();
             // 포인트 기록 생성
             PointHistory pointHistory = new PointHistory(
                     orderRequest.getUsedPoint(),
@@ -108,12 +103,6 @@ public class OrderService {
     }
 
 
-    /**
-     * 주문 수락 - 사장 유저 전용 기능
-     * @param authUser : 사용자 정보
-     * @param orderId : 주문 id
-     * @return orderId : 주문 id
-     */
     @Transactional
     public Long updateOrder(AuthUser authUser, Long orderId) {
 
@@ -128,13 +117,7 @@ public class OrderService {
         return order.getId();
     }
 
-    /**
-     * 주문 상태 변경 - 사장 유저 전용 기능
-     * @param authUser : 사용자 정보
-     * @param orderId : 주문 id
-     * @param orderStatusRequest : 변경할 상태 정보
-     * @return orderId : 주문 id
-     */
+
     public Long updateOrderStatus(AuthUser authUser, Long orderId, OrderStatusRequest orderStatusRequest) {
 
         // 사장이 아닌 사용자일 경우 예외발생
@@ -148,9 +131,10 @@ public class OrderService {
         // 주문 상태가 배달 완료이면 포인트 적립
         if (OrderStatus.fromString(orderStatusRequest.getStatus()).equals(OrderStatus.DELIVERED)) {
             // 사용자의 기존 포인트
-            int userAmount = pointHistoryRepository
-                    .findTopByUserIdOrderByCreatedAtDesc(order.getUser().getId())
-                    .orElse(0);
+            PointHistory prePoint = pointHistoryRepository
+                    .findTopByUserIdOrderByCreatedAtDesc(order.getUser().getId()).orElseThrow(
+                            ()-> new ApiException(ErrorStatus._NOT_FOUND_POINT_HISTORY));
+            int userAmount = prePoint.getPoint();
             // 적립 포인트
             int point = (int) Math.round(order.getTotalPrice() * 0.03);
             // 포인트 기록 생성
@@ -166,11 +150,6 @@ public class OrderService {
     }
 
 
-    /**
-     * 모든 주문 조회 기능
-     * @param authUser : 사용자 정보
-     * @return List<OrderListResponse> : 주문 목록
-     */
     public List<OrderListResponse> getAllOrders(AuthUser authUser) {
         User user = getUserById(authUser);
 
@@ -198,16 +177,12 @@ public class OrderService {
         return orderListResponses;
     }
 
-    /**
-     * 특정 주문 조회 기능
-     * @param orderId : 주문 id
-     * @return OrderDetailResponse : 주문 상세 정보
-     */
+
     public OrderDetailResponse getOrder(Long orderId) {
 
         Order order = getOrderById(orderId);
         OrderMenu orderMenu = getOrderMenuByOrderId(orderId);
-        Shop shop = getShopById(orderMenu.getId());
+        Shop shop = getShopById(orderMenu.getShop().getId());
 
         // shop, SimpleMenu, order -> OrderDetailResponse 생성
         List<SimpleMenu> simpleMenuList = orderMenu.getMenuIdList().stream()
@@ -217,7 +192,6 @@ public class OrderService {
                 }).toList();
         return OrderDetailResponse.fromEntity(shop, simpleMenuList, order);
     }
-
 
 
     private User getUserById(AuthUser authUser) {
