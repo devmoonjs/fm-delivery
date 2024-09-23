@@ -8,4 +8,8 @@ import lombok.Getter;
 public class MenuIdList {
     private Long menuId;
     private int count;
+
+    public void updateCount(int count) {
+        this.count += count;
+    }
 }
