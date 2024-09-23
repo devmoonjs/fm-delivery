@@ -20,6 +20,27 @@ public enum ErrorStatus implements BaseCode {
     _BAD_REQUEST_UPDATE_SHOP(HttpStatus.BAD_REQUEST, "400", "본인 가게만 수정이 가능합니다."),
     _NOT_FOUND_SHOP(HttpStatus.NOT_FOUND, "404", "존재하지 않은 가게입니다."),
 
+    // menu
+    _NOT_FOUND_MENU(HttpStatus.NOT_FOUND, "404", "존재하지 않는 메뉴입니다."),
+    _FILE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "500", "내부 서버 오류로 이미지를 업로드 할 수 없습니다."),
+
+    // cart
+    _NOT_FOUND_CART(HttpStatus.NOT_FOUND, "404", "존재하지 않는 장바구니입니다."),
+
+    // order
+    _BAD_REQUEST_ORDER_AMOUNT(HttpStatus.BAD_REQUEST, "400", "최소 주문금액을 넘지 않습니다."),
+    _BAD_REQUEST_ORDER_TIME(HttpStatus.BAD_REQUEST, "400", "가게 주문 시간이 아닙니다."),
+    _INVALID_PAYMENT_METHOD(HttpStatus.BAD_REQUEST, "400", "유효하지 않은 결제 방법입니다."),
+    _INVALID_ORDER_STATUS(HttpStatus.BAD_REQUEST, "400", "유효하지 않은 주문 상태입니다."),
+    _BAD_REQUEST_UPDATE_STATUS(HttpStatus.BAD_REQUEST, "400", "사장님 계정만 주문 상태 변경이 가능합니다."),
+    _NOT_FOUND_ORDER_LIST(HttpStatus.BAD_REQUEST, "404", "주문 목록이 존재하지 않습니다."),
+    _NOT_FOUND_ORDER_MENU_LIST(HttpStatus.BAD_REQUEST, "404", "주문-메뉴 목록이 존재하지 않습니다."),
+
+    // review
+    _NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "404", "존재하지 않는 리뷰입니다."),
+    _NOT_FOUND_ORDER(HttpStatus.NOT_FOUND, "404", "존재하지 않는 주문입니다."),
+    _BAD_REQUEST_UPDATE_REVIEW(HttpStatus.BAD_REQUEST, "400", "본인의 리뷰만 수정할 수 있습니다."),
+
     // token
     _NOT_FOUND_TOKEN(HttpStatus.NOT_FOUND, "404", "CICD 테스트!!!!! JWT 토큰이 필요합니다."),
     _BAD_REQUEST_TOKEN(HttpStatus.BAD_REQUEST, "400", "잘못된 JWT 토큰입니다"),
