@@ -24,7 +24,7 @@ public class OrderDetailResponse {
     private final PayMethod payMethod;
     private final int usedPoint;
 
-    public OrderDetailResponse fromEntity(Shop shop, List<SimpleMenu> menu, Order order ) {
+    public static OrderDetailResponse fromEntity(Shop shop, List<SimpleMenu> menu, Order order ) {
         return new OrderDetailResponse(
                 order.getId(),
                 shop.getId(),

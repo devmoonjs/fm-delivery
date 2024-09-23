@@ -32,4 +32,9 @@ public class OrderMenu extends Timestamped {
     @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
+    public OrderMenu(List<MenuIdList> menuIdList , Order order, Shop shop) {
+        this.menuIdList = menuIdList;
+        this.order = order;
+        this.shop = shop;
+    }
 }
