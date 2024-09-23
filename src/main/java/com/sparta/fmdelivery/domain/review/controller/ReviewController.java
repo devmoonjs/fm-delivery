@@ -3,12 +3,15 @@ package com.sparta.fmdelivery.domain.review.controller;
 import com.sparta.fmdelivery.apipayload.ApiResponse;
 import com.sparta.fmdelivery.domain.common.annotation.Auth;
 import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
 import com.sparta.fmdelivery.domain.review.dto.ReviewRequest;
 import com.sparta.fmdelivery.domain.review.dto.ReviewResponse;
 import com.sparta.fmdelivery.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,9 +22,12 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/reviews")
-    public ApiResponse<ReviewResponse> createReview(@Auth AuthUser authUser, @RequestBody ReviewRequest request) {
-        return ApiResponse.onSuccess(reviewService.createReview(authUser, request));
+    @PostMapping(value = "/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<ReviewResponse> createReview(
+            @Auth AuthUser authUser,
+            @RequestPart("request") ReviewRequest request,
+            @RequestParam("image") MultipartFile image) {
+        return ApiResponse.onSuccess(reviewService.createReview(authUser, request, image));
     }
 
     @GetMapping("/reviews/{reviewId}")
@@ -34,9 +40,14 @@ public class ReviewController {
         return ApiResponse.onSuccess(reviewService.getReviews(shopId));
     }
 
-    @PutMapping("/reviews/{reviewId}")
-    public ApiResponse<ReviewResponse> updateReview(@Auth AuthUser authUser, @PathVariable Long reviewId, @RequestBody ReviewRequest request) {
-        return ApiResponse.onSuccess(reviewService.updateReview(authUser, reviewId, request));
+    @PutMapping(value = "/reviews/{reviewId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<ReviewResponse> updateReview(
+            @Auth AuthUser authUser,
+            @PathVariable Long reviewId,
+            @RequestPart("request") ReviewRequest request,
+            @RequestPart(value = "image", required = false) MultipartFile image) {
+
+        return ApiResponse.onSuccess(reviewService.updateReview(authUser, reviewId, request, image));
     }
 
     @DeleteMapping("/reviews/{reviewId}")

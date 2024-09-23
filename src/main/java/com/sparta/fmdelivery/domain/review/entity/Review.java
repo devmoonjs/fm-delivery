@@ -36,18 +36,23 @@ public class Review extends Timestamped {
     @Column(nullable = false, length = 200)
     private String content;
 
+    @Column(name = "img_url")
+    private String imageUrl;
+
     // 생성자
-    public Review(ReviewRequest request, Order order, Shop shop, User user) {
+    public Review(ReviewRequest request, Order order, Shop shop, User user, String imgUrl) {
         this.order = order;
         this.shop = shop;
         this.user = user;  // User 엔티티를 초기화
         this.rating = request.getRating();
         this.content = request.getContent();
+        this.imageUrl = imgUrl;
     }
 
     // 리뷰 수정 메서드
-    public void updateReview(int rating, String content) {
+    public void updateReview(int rating, String content, String imageUrl) {
         this.rating = rating;
         this.content = content;
+        this.imageUrl = imageUrl;
     }
 }
