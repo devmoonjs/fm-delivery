@@ -23,6 +23,9 @@ public enum ErrorStatus implements BaseCode {
     // menu
     _NOT_FOUND_MENU(HttpStatus.NOT_FOUND, "404", "존재하지 않는 메뉴입니다."),
 
+    // cart
+    _NOT_FOUND_CART(HttpStatus.NOT_FOUND, "404", "존재하지 않는 장바구니입니다."),
+
     // review
     _NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "404", "존재하지 않는 리뷰입니다."),
     _NOT_FOUND_ORDER(HttpStatus.NOT_FOUND, "404", "존재하지 않는 주문입니다."),
