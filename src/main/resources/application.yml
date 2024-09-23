@@ -39,6 +39,11 @@ spring:
     hibernate:
       ddl-auto: update
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 ---
 # prod ??? ??
 spring:
@@ -59,9 +64,34 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect  # MySQL? Dialect ??
 
+  data:
+    redis:
+      host: fm-server-v1.ezwti8.ng.0001.apn2.cache.amazonaws.com
+      port: 6379
 ---
 spring:
   data:
     redis:
       host: localhost
       port: 6379
+
+---
+cloud:
+  aws:
+    s3:
+      bucket: fm-delivery-bucket
+    credentials:
+      access-key: AKIAZQ3DSBLVICQ2ZNF4
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
