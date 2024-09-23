@@ -20,4 +20,10 @@ public class PointHistory extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public PointHistory(int point, int balance, User user) {
+        this.point = point;
+        this.balance = balance;
+        this.user = user;
+    }
 }

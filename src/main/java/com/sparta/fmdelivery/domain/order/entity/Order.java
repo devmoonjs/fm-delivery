@@ -34,6 +34,14 @@ public class Order extends Timestamped {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public Order(int totalPrice, PayMethod payMethod, int usedPoint, User user){
+        this.totalPrice = totalPrice;
+        this.status = OrderStatus.ORDER_PLACED;
+        this.payMethod = payMethod;
+        this.usedPoint = usedPoint;
+        this.user = user;
+    }
+
     public void changeStatus(OrderStatus status) {
         this.status = status;
     }
