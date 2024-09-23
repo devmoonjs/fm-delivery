@@ -127,7 +127,7 @@ public class ShopService {
         );
     }
 
-    private Shop getShopById(Long id) {
+    public Shop getShopById(Long id) {
 
         return shopRepository.findById(id).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_SHOP)
