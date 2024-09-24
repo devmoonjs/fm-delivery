@@ -3,10 +3,8 @@ package com.sparta.fmdelivery.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.fmdelivery.apipayload.ApiResponse;
 import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import com.sparta.fmdelivery.domain.user.enums.UserRole;
+import io.jsonwebtoken.*;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,16 +38,44 @@ public class JwtFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-        /*
-        만약 URL이 /auth로 시작하면, 인증이 필요 없는 경로로 간주하고 필터 체인을 그대로 진행
-         */
+
+        // 관리자 권한
+        if (url.startsWith("/api/v1/admin")) {
+            String bearerJwt = getBarerJwtFromHeader(httpRequest, httpResponse);
+            if (bearerJwt == null) {
+                jwtExceptionHandler(httpResponse, ErrorStatus._NOT_FOUND_TOKEN);
+                return;
+            }
+
+            String jwt = jwtUtil.substringToken(bearerJwt);
+
+            Claims claims;
+            try {
+                claims = jwtUtil.extractClaims(jwt);
+            } catch (ExpiredJwtException e) {
+                jwtExceptionHandler(httpResponse, ErrorStatus._EXPIRED_TOKEN);
+                return;
+            } catch (JwtException e) {
+                jwtExceptionHandler(httpResponse, ErrorStatus._INVALID_TOKEN);
+                return;
+            }
+
+            if (claims == null) {
+                jwtExceptionHandler(httpResponse, ErrorStatus._INVALID_TOKEN);
+                return;
+            }
+
+            String userRole = (String) claims.get("userRole");
+
+            if (userRole == null || !UserRole.valueOf(userRole).equals(UserRole.ADMIN)) {
+                jwtExceptionHandler(httpResponse, ErrorStatus._FORBIDDEN);
+                return;
+            }
+        }
 
         // 클라이언트가 보낸 Authorization 헤더에서 JWT 토큰을 가져옴
-        String bearerJwt = httpRequest.getHeader("Authorization");
-        if (bearerJwt == null) {
-            jwtExceptionHandler(httpResponse, ErrorStatus._NOT_FOUND_TOKEN);
-            return;
-        }
+        String bearerJwt = getBarerJwtFromHeader(httpRequest, httpResponse);
+        if (bearerJwt == null) return;
         // JWT 토큰이 없으면, 400에러 반환
 
         String jwt = jwtUtil.substringToken(bearerJwt); // Bearer 접두사를 제거하고 실제 JWT 토큰만 추출
@@ -83,6 +109,15 @@ public class JwtFilter implements Filter {
             log.error("Invalid JWT token, 유효하지 않는 JWT 토큰 입니다.", e);
             jwtExceptionHandler(httpResponse, ErrorStatus._EXCEPTION_ERROR_TOKEN);
         }
+    }
+
+    private String getBarerJwtFromHeader(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+        String bearerJwt = httpRequest.getHeader("Authorization");
+        if (bearerJwt == null) {
+            jwtExceptionHandler(httpResponse, ErrorStatus._NOT_FOUND_TOKEN);
+            return null;
+        }
+        return bearerJwt;
     }
 
     // 필터 종료 시 호출되는 메서드, 특별한 작업 없이 기본 종료 동작을 호출
