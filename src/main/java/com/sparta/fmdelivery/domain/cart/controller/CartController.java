@@ -29,7 +29,7 @@ public class CartController {
     }
 
     // 장바구니 삭제(비우기)
-    @PatchMapping("/carts")
+    @DeleteMapping("/carts")
     public ApiResponse<String> deleteCart(@Auth AuthUser authUser){
         cartService.deleteCart(authUser);
         return ApiResponse.onSuccess("장바구니가 삭제되었습니다.");
