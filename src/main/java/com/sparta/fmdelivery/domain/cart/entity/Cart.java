@@ -1,6 +1,6 @@
 package com.sparta.fmdelivery.domain.cart.entity;
 
-import com.sparta.fmdelivery.domain.order.pojo.MenuIdList;
+import com.sparta.fmdelivery.domain.order.dto.MenuIdList;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;

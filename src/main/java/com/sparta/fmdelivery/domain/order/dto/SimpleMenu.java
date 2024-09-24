@@ -1,4 +1,4 @@
-package com.sparta.fmdelivery.domain.order.pojo;
+package com.sparta.fmdelivery.domain.order.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

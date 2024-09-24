@@ -16,7 +16,7 @@ import com.sparta.fmdelivery.domain.order.entity.OrderMenu;
 import com.sparta.fmdelivery.domain.order.entity.PointHistory;
 import com.sparta.fmdelivery.domain.order.enums.OrderStatus;
 import com.sparta.fmdelivery.domain.order.enums.PayMethod;
-import com.sparta.fmdelivery.domain.order.pojo.SimpleMenu;
+import com.sparta.fmdelivery.domain.order.dto.SimpleMenu;
 import com.sparta.fmdelivery.domain.order.repository.OrderMenuRepository;
 import com.sparta.fmdelivery.domain.order.repository.OrderRepository;
 import com.sparta.fmdelivery.domain.order.repository.PointHistoryRepository;
@@ -33,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,15 +47,9 @@ public class OrderService {
     private final OrderMenuRepository orderMenuRepository;
     private final PointHistoryRepository pointHistoryRepository;
 
-    /**
-     * 주문 저장 기능
-     * @param authUser : 사용자 정보
-     * @param orderRequest : 주문 정보
-     * @return OrderResponse : 주문 id, 가게 id
-     */
+
     @Transactional
     public OrderResponse saveOrder(AuthUser authUser, OrderRequest orderRequest) {
-
         User user = getUserById(authUser);
         Cart cart = getCartById(authUser.getId());
         Shop shop = getShopById(cart.getShopId());
@@ -72,7 +65,6 @@ public class OrderService {
             throw new ApiException(ErrorStatus._BAD_REQUEST_ORDER_TIME);
         }
 
-        // 주문 생성 및 저장
         Order order = new Order(
                 orderRequest.getTotalPrice(),
                 PayMethod.fromString(orderRequest.getPayMethod()),
@@ -81,7 +73,6 @@ public class OrderService {
         );
         orderRepository.save(order);
 
-        // 주문메뉴 생성 및 저장
         OrderMenu orderMenu = new OrderMenu( cart.getMenu(), order, shop);
         orderMenuRepository.save(orderMenu);
 
@@ -92,7 +83,6 @@ public class OrderService {
                     .findTopByUserIdOrderByCreatedAtDesc(user.getId()).orElseThrow(
                             ()-> new ApiException(ErrorStatus._NOT_FOUND_POINT_HISTORY));
             int userAmount = prePoint.getPoint();
-
             // 포인트 기록 생성
             PointHistory pointHistory = new PointHistory(
                     orderRequest.getUsedPoint(),
@@ -102,10 +92,7 @@ public class OrderService {
             pointHistoryRepository.save(pointHistory);
         }
 
-        // 장바구니 삭제
         cartRepository.deleteById(cart.getUserId());
-
-        // response DTO 생성 및 반환
         return new OrderResponse(order.getId(), shop.getId());
     }
 
@@ -162,13 +149,11 @@ public class OrderService {
     public List<OrderListResponse> getAllOrders(AuthUser authUser) {
         User user = getUserById(authUser);
 
-        // 목록 유무 조회
         List<Order> orders = orderRepository.findAllByUserId(user.getId()).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_ORDER_LIST));
 
         // 목록 별 OrderListResponse 객체 생성
         List<OrderListResponse> orderListResponses = orders.stream().map(order -> {
-
             // 가게 id 조회
             Long shopId = orderMenuRepository.findAllByOrderId(order.getId())
                     .orElseThrow(()->new ApiException(ErrorStatus._NOT_FOUND_ORDER_MENU_LIST))
@@ -187,11 +172,9 @@ public class OrderService {
     }
 
     public OrderDetailResponse getOrder(Long orderId) {
-
         Order order = getOrderById(orderId);
         OrderMenu orderMenu = getOrderMenuByOrderId(orderId);
         Shop shop = getShopById(orderMenu.getShop().getId());
-
 
         // shop, SimpleMenu, order -> OrderDetailResponse 생성
         List<SimpleMenu> simpleMenuList = orderMenu.getMenuIdList().stream()
@@ -204,49 +187,42 @@ public class OrderService {
 
 
     private User getUserById(AuthUser authUser) {
-
         return userRepository.findById(authUser.getId()).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_USER)
         );
     }
 
     private Shop getShopById(Long shopId) {
-
         return shopRepository.findById(shopId).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_SHOP)
         );
     }
 
     private Cart getCartById(Long userId) {
-
         return cartRepository.findById(userId).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_CART)
         );
     }
 
     private Order getOrderById(Long orderId) {
-
         return orderRepository.findById(orderId).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_ORDER)
         );
     }
 
     private Menu getMenuById(Long menuId) {
-
         return menuRepository.findById(menuId).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_MENU)
         );
     }
 
     private OrderMenu getOrderMenuByOrderId(Long orderId) {
-
         return orderMenuRepository.findById(orderId).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_ORDER_MENU_LIST)
         );
     }
 
     private static void isValidOwner(AuthUser authUser) {
-
         if (!authUser.getUserRole().equals(UserRole.OWNER)) {
             throw new ApiException(ErrorStatus._BAD_REQUEST_UPDATE_STATUS);
         }
