@@ -1,6 +1,7 @@
 package com.sparta.fmdelivery.domain.shop.entitiy;
 
 import com.sparta.fmdelivery.domain.common.entity.Timestamped;
+import com.sparta.fmdelivery.domain.menu.entity.Menu;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
 import com.sparta.fmdelivery.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -8,11 +9,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "shops")
 public class Shop extends Timestamped {
 
     @Id
@@ -22,6 +24,9 @@ public class Shop extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "shop")
+    private List<Menu> menuList = new ArrayList<>();
 
     @Column(nullable = false)
     private String name;
@@ -49,7 +54,7 @@ public class Shop extends Timestamped {
         this.minAmount = request.getMinAmount();
     }
 
-    public void softDelete() {
+    public void shutDown() {
         this.isDeleted = true;
     }
 
