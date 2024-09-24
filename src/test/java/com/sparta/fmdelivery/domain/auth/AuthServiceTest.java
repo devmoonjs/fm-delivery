@@ -4,6 +4,7 @@ import com.sparta.fmdelivery.apipayload.ApiResponse;
 import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
 import com.sparta.fmdelivery.config.JwtUtil;
 import com.sparta.fmdelivery.config.PasswordEncoder;
+import com.sparta.fmdelivery.domain.auth.dto.request.LoginRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignupRequest;
 import com.sparta.fmdelivery.domain.auth.dto.response.SignResponse;
 import com.sparta.fmdelivery.domain.auth.service.AuthService;
@@ -16,6 +17,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -73,5 +77,24 @@ public class AuthServiceTest {
 
     }
 
+    @Test
+    void 로그인_성공() {
+        // given
+        LoginRequest loginRequest = new LoginRequest("test@example.com", "password");
+        User realUser = new User(loginRequest.getEmail(), "encodedPassword", UserRole.USER);
+        User spyUser = spy(realUser);
 
+        doReturn(1L).when(spyUser).getId();
+
+        given(userRepository.findByEmail(loginRequest.getEmail())).willReturn(Optional.of(spyUser));
+        given(passwordEncoder.matches(loginRequest.getPassword(), spyUser.getPassword())).willReturn(true);
+        given(jwtUtil.createToken(anyLong(), anyString(), any(UserRole.class))).willReturn("token");
+
+        // when
+        SignResponse signResponse = authService.login(loginRequest);
+
+        // then
+        assertNotNull(signResponse);
+        assertEquals("token", signResponse.getBearerToken());
+    }
 }
