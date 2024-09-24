@@ -68,6 +68,7 @@ public class AuthServiceTest {
     void 중복된_이메일로_회원가입_실패() {
         // given
         SignupRequest signupRequest = new SignupRequest("test@example.com", "password", "USER");
+
         given(userRepository.existsByEmail(signupRequest.getEmail())).willReturn(true);
 
         // when / then
@@ -96,5 +97,19 @@ public class AuthServiceTest {
         // then
         assertNotNull(signResponse);
         assertEquals("token", signResponse.getBearerToken());
+    }
+
+    @Test
+    void 잘못된_비밀번호로_로그인_실패() {
+        // given
+        LoginRequest loginRequest = new LoginRequest("test@example.com", "wrongpassword");
+        User user = new User("test@example.com", "encodedPassword", UserRole.USER);
+
+        given(userRepository.findByEmail(loginRequest.getEmail())).willReturn(Optional.of(user));
+        given(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())).willReturn(false);
+
+        // when / then
+        ApiException exception = assertThrows(ApiException.class, () -> authService.login(loginRequest));
+        assertEquals("비밀번호가 일치하지 않습니다." , exception.getErrorCode().getReasonHttpStatus().getMessage());
     }
 }
