@@ -35,7 +35,7 @@ public class OrderController {
         return ApiResponse.onSuccess(orderService.updateOrder(authUser, orderId));
     }
 
-    // 사장 - 주문 수락
+    // 사장 - 주문 상태
     @PatchMapping("/orders/{orderId}/status")
     public ApiResponse<Long> updateOrderStatus(@Auth AuthUser authUser,
                                                         @PathVariable Long orderId,

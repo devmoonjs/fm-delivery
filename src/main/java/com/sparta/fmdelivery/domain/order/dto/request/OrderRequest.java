@@ -13,5 +13,4 @@ public class OrderRequest {
     private String payMethod;
     private int totalPrice;
     private int usedPoint;
-    private LocalTime orderTime;
 }

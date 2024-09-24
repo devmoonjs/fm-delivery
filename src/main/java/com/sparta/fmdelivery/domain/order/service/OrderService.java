@@ -55,14 +55,8 @@ public class OrderService {
         Shop shop = getShopById(cart.getShopId());
 
         // 가게 최소금액에 못 미칠 경우
-        if (orderRequest.getTotalPrice() < shop.getMinAmount()){
+        if (orderRequest.getTotalPrice() < shop.getMinAmount()) {
             throw new ApiException(ErrorStatus._BAD_REQUEST_ORDER_AMOUNT);
-        }
-
-        // 가게 오픈/마감 시간이 아닐경우
-        LocalTime orderTime = orderRequest.getOrderTime();
-        if(orderTime.isBefore(shop.getOpenedAt()) || orderTime.isAfter(shop.getClosedAt())){
-            throw new ApiException(ErrorStatus._BAD_REQUEST_ORDER_TIME);
         }
 
         Order order = new Order(
@@ -71,17 +65,24 @@ public class OrderService {
                 orderRequest.getUsedPoint(),
                 user
         );
+
+        // 가게 오픈/마감 시간이 아닐경우
+        LocalTime orderTime = order.getCreatedAt().toLocalTime();
+        if (orderTime.isBefore(shop.getOpenedAt()) || orderTime.isAfter(shop.getClosedAt())) {
+            throw new ApiException(ErrorStatus._BAD_REQUEST_ORDER_TIME);
+        }
+
         orderRepository.save(order);
 
-        OrderMenu orderMenu = new OrderMenu( cart.getMenu(), order, shop);
+        OrderMenu orderMenu = new OrderMenu(cart.getMenu(), order, shop);
         orderMenuRepository.save(orderMenu);
 
         // 사용 포인트가 0이 아닌 경우(포인트 사용)
-        if(orderRequest.getUsedPoint() != 0){
+        if (orderRequest.getUsedPoint() != 0) {
             // 사용자의 기존 포인트
             PointHistory prePoint = pointHistoryRepository
                     .findTopByUserIdOrderByCreatedAtDesc(user.getId()).orElseThrow(
-                            ()-> new ApiException(ErrorStatus._NOT_FOUND_POINT_HISTORY));
+                            () -> new ApiException(ErrorStatus._NOT_FOUND_POINT_HISTORY));
             int userAmount = prePoint.getPoint();
             // 포인트 기록 생성
             PointHistory pointHistory = new PointHistory(
@@ -95,7 +96,6 @@ public class OrderService {
         cartRepository.deleteById(cart.getUserId());
         return new OrderResponse(order.getId(), shop.getId());
     }
-
 
 
     @Transactional
@@ -128,7 +128,7 @@ public class OrderService {
             // 사용자의 기존 포인트
             PointHistory prePoint = pointHistoryRepository
                     .findTopByUserIdOrderByCreatedAtDesc(order.getUser().getId()).orElseThrow(
-                            ()-> new ApiException(ErrorStatus._NOT_FOUND_POINT_HISTORY));
+                            () -> new ApiException(ErrorStatus._NOT_FOUND_POINT_HISTORY));
             int userAmount = prePoint.getPoint();
 
             // 적립 포인트
@@ -156,7 +156,7 @@ public class OrderService {
         List<OrderListResponse> orderListResponses = orders.stream().map(order -> {
             // 가게 id 조회
             Long shopId = orderMenuRepository.findAllByOrderId(order.getId())
-                    .orElseThrow(()->new ApiException(ErrorStatus._NOT_FOUND_ORDER_MENU_LIST))
+                    .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_ORDER_MENU_LIST))
                     .getShop().getId();
 
             // 가게 이름 조회
