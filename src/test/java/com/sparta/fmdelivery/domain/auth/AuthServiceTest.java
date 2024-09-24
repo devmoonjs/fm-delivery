@@ -129,4 +129,17 @@ public class AuthServiceTest {
         // then
         verify(userRepository).delete(user);
     }
+
+    @Test
+    void 잘못된_비밀번호로_회원탈퇴_실패() {
+        // given
+        SignoutRequest signoutRequest = new SignoutRequest("password");
+        User user = new User("test@example.com", "encodedPassword", UserRole.USER);
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
+        given(passwordEncoder.matches(signoutRequest.getPassword(), user.getPassword())).willReturn(false);
+
+        // when / then
+        ApiException exception = assertThrows(ApiException.class, () -> authService.signout(signoutRequest, 1L));
+        assertEquals("비밀번호가 일치하지 않습니다." , exception.getErrorCode().getReasonHttpStatus().getMessage());
+    }
 }
