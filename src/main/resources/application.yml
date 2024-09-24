@@ -71,12 +71,6 @@ spring:
     redis:
       host: fm-server-v1.ezwti8.ng.0001.apn2.cache.amazonaws.com
       port: 6379
----
-spring:
-  data:
-    redis:
-      host: localhost
-      port: 6379
 
 ---
 cloud:
