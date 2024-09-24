@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
+import com.sparta.fmdelivery.config.S3ClientUtility;
 import com.sparta.fmdelivery.domain.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.review.dto.ReviewRequest;
 import com.sparta.fmdelivery.domain.review.dto.ReviewResponse;
@@ -35,10 +36,7 @@ public class ReviewService {
     private final OrderRepository orderRepository;
     private final ShopRepository shopRepository;
     private final UserRepository userRepository;
-    private final AmazonS3Client amazonS3Client;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+    private final S3ClientUtility s3ClientUtility;
 
     private String MENU_IMG_DIR = "review/";
 
@@ -48,7 +46,7 @@ public class ReviewService {
         Shop shop = getShopById(request.getShopId());
         User user = getUserById(authUser.getId());
 
-        String imageUrl = uploadImageToS3(image);
+        String imageUrl = s3ClientUtility.uploadFile(MENU_IMG_DIR, image);
 
         Review review = new Review(request, order, shop, user, imageUrl);
         return ReviewResponse.fromEntity(reviewRepository.save(review));
@@ -76,7 +74,7 @@ public class ReviewService {
         // 이미지가 있는 경우에만 업로드하고, 없으면 기존 이미지 URL 유지
         String imageUrl = review.getImageUrl(); // 기존 이미지 URL
         if (image != null && !image.isEmpty()) {
-            imageUrl = uploadImageToS3(image); // 새 이미지 업로드
+            imageUrl = s3ClientUtility.uploadFile(MENU_IMG_DIR, image); // 새 이미지 업로드
         }
 
         review.updateReview(request.getRating(), request.getContent(), imageUrl);
@@ -114,25 +112,6 @@ public class ReviewService {
     private void validateUserPermission(Long reviewUserId, Long authUserId) {
         if (!reviewUserId.equals(authUserId)) {
             throw new ApiException(ErrorStatus._BAD_REQUEST_UPDATE_REVIEW);
-        }
-    }
-
-    private String uploadImageToS3(MultipartFile multipartFile) {
-        try {
-            String fileName = MENU_IMG_DIR + UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
-
-            // 메타데이터 설정 (파일 크기와 콘텐츠 타입)
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(multipartFile.getSize());
-            metadata.setContentType(multipartFile.getContentType());
-
-            // S3에 파일 업로드
-            amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, multipartFile.getInputStream(), metadata));
-
-            // 업로드된 파일의 URL 반환
-            return amazonS3Client.getUrl(bucket, fileName).toString();
-        } catch (IOException e) {
-            throw new ApiException(ErrorStatus._FILE_UPLOAD_ERROR);
         }
     }
 }
