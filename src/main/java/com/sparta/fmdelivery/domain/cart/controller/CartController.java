@@ -4,8 +4,8 @@ import com.sparta.fmdelivery.apipayload.ApiResponse;
 import com.sparta.fmdelivery.domain.cart.dto.CartResponse;
 import com.sparta.fmdelivery.domain.cart.dto.CartRequest;
 import com.sparta.fmdelivery.domain.cart.service.CartService;
-import com.sparta.fmdelivery.domain.common.annotation.Auth;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.annotation.Auth;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

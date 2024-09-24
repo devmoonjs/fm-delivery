@@ -1,11 +1,10 @@
 package com.sparta.fmdelivery.domain.menu.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
 import com.sparta.fmdelivery.domain.menu.dto.MenuResponse;
 import com.sparta.fmdelivery.domain.menu.entity.Menu;
@@ -18,9 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.ion.IonException;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;

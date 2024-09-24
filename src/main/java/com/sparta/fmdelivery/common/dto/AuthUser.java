@@ -1,4 +1,4 @@
-package com.sparta.fmdelivery.domain.common.dto;
+package com.sparta.fmdelivery.common.dto;
 
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
 import lombok.Getter;

@@ -1,15 +1,13 @@
 package com.sparta.fmdelivery.domain.review.controller;
 
 import com.sparta.fmdelivery.apipayload.ApiResponse;
-import com.sparta.fmdelivery.domain.common.annotation.Auth;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
-import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
+import com.sparta.fmdelivery.common.annotation.Auth;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.review.dto.ReviewRequest;
 import com.sparta.fmdelivery.domain.review.dto.ReviewResponse;
 import com.sparta.fmdelivery.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -5,7 +5,7 @@ import com.sparta.fmdelivery.domain.cart.dto.CartResponse;
 import com.sparta.fmdelivery.domain.cart.dto.CartRequest;
 import com.sparta.fmdelivery.domain.cart.entity.Cart;
 import com.sparta.fmdelivery.domain.cart.repository.CartRepository;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.menu.repository.MenuRepository;
 import com.sparta.fmdelivery.domain.menu.entity.Menu;
 import com.sparta.fmdelivery.domain.order.dto.MenuIdList;

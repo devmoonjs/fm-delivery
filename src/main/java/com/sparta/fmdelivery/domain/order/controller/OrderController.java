@@ -1,14 +1,13 @@
 package com.sparta.fmdelivery.domain.order.controller;
 
 import com.sparta.fmdelivery.apipayload.ApiResponse;
-import com.sparta.fmdelivery.domain.common.annotation.Auth;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.annotation.Auth;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.order.dto.request.OrderRequest;
 import com.sparta.fmdelivery.domain.order.dto.request.OrderStatusRequest;
 import com.sparta.fmdelivery.domain.order.dto.response.OrderDetailResponse;
 import com.sparta.fmdelivery.domain.order.dto.response.OrderListResponse;
 import com.sparta.fmdelivery.domain.order.dto.response.OrderResponse;
-import com.sparta.fmdelivery.domain.order.enums.OrderStatus;
 import com.sparta.fmdelivery.domain.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

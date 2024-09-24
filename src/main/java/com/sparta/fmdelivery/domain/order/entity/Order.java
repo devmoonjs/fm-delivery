@@ -1,6 +1,6 @@
 package com.sparta.fmdelivery.domain.order.entity;
 
-import com.sparta.fmdelivery.domain.common.entity.Timestamped;
+import com.sparta.fmdelivery.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.order.enums.OrderStatus;
 import com.sparta.fmdelivery.domain.order.enums.PayMethod;
 import com.sparta.fmdelivery.domain.user.entity.User;

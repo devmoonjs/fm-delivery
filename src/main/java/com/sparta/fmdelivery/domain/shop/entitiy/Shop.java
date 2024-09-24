@@ -1,6 +1,6 @@
 package com.sparta.fmdelivery.domain.shop.entitiy;
 
-import com.sparta.fmdelivery.domain.common.entity.Timestamped;
+import com.sparta.fmdelivery.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.menu.entity.Menu;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
 import com.sparta.fmdelivery.domain.user.entity.User;

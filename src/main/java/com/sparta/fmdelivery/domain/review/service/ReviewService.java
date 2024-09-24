@@ -4,7 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.order.entity.Order;
 import com.sparta.fmdelivery.domain.order.repository.OrderRepository;
 import com.sparta.fmdelivery.domain.review.dto.ReviewRequest;

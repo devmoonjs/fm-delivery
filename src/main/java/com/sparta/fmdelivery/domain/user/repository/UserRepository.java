@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Long> {
-    boolean existsByEmail(String email); // 주어진 이메일을 가진 사용자가 데이터베이스에 존재하는지 확인
+    boolean existsByEmail(String email);
 
     Optional<User> findByEmail(String email);
 }

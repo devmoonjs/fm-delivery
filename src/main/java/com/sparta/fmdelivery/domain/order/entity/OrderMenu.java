@@ -1,6 +1,6 @@
 package com.sparta.fmdelivery.domain.order.entity;
 
-import com.sparta.fmdelivery.domain.common.entity.Timestamped;
+import com.sparta.fmdelivery.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.order.dto.MenuIdList;
 import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
