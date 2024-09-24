@@ -1,6 +1,6 @@
 package com.sparta.fmdelivery.domain.order.dto.response;
 
-import com.sparta.fmdelivery.domain.order.pojo.SimpleMenu;
+import com.sparta.fmdelivery.domain.order.dto.SimpleMenu;
 import com.sparta.fmdelivery.domain.order.entity.Order;
 import com.sparta.fmdelivery.domain.order.enums.OrderStatus;
 import com.sparta.fmdelivery.domain.order.enums.PayMethod;
