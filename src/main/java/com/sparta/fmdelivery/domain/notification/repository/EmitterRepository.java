@@ -1,6 +1,5 @@
 package com.sparta.fmdelivery.domain.notification.repository;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.Map;
