@@ -1,8 +1,9 @@
 package com.sparta.fmdelivery.domain.menu.service;
 
 import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
+import com.sparta.fmdelivery.common.annotation.Auth;
 import com.sparta.fmdelivery.config.S3ClientUtility;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
 import com.sparta.fmdelivery.domain.menu.dto.MenuResponse;
 import com.sparta.fmdelivery.domain.menu.entity.Menu;
@@ -29,7 +30,7 @@ public class MenuService {
     private final String MENU_IMG_DIR = "menu/";
 
     @Transactional
-    public MenuResponse createMenu(AuthUser authUser, MenuRequest request, MultipartFile multipartFile) {
+    public MenuResponse createMenu(@Auth AuthUser authUser, MenuRequest request, MultipartFile multipartFile) {
         Shop shop = getValidatedShop(request.getShopId(), authUser);
 
         // 공통 S3 컴포넌트를 사용하여 이미지 업로드
@@ -47,7 +48,7 @@ public class MenuService {
     }
 
     @Transactional
-    public MenuResponse updateMenu(AuthUser authUser, Long menuId, MenuRequest request, MultipartFile image) {
+    public MenuResponse updateMenu(@Auth AuthUser authUser, Long menuId, MenuRequest request, MultipartFile image) {
         Shop shop = getValidatedShop(request.getShopId(), authUser);
         Menu menu = getValidatedMenu(menuId);
 
@@ -62,7 +63,7 @@ public class MenuService {
     }
 
     @Transactional
-    public void deleteMenu(AuthUser authUser, Long menuId, Long shopId) {
+    public void deleteMenu(@Auth AuthUser authUser, Long menuId, Long shopId) {
         Shop shop = getValidatedShop(shopId, authUser);
         Menu menu = getValidatedMenu(menuId);
 
@@ -83,7 +84,7 @@ public class MenuService {
     }
 
     // 상점 소유자 확인
-    private void validateOwner(Shop shop, AuthUser authUser) {
+    private void validateOwner(Shop shop, @Auth AuthUser authUser) {
         if (!shop.getUser().getId().equals(authUser.getId())) {
             throw new ApiException(ErrorStatus._BAD_REQUEST_UPDATE_SHOP);
         }

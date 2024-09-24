@@ -3,7 +3,7 @@ package com.sparta.fmdelivery.domain.menu.service;
 import com.sparta.fmdelivery.apipayload.dto.ReasonDto;
 import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
 import com.sparta.fmdelivery.config.S3ClientUtility;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
 import com.sparta.fmdelivery.domain.menu.dto.MenuResponse;
 import com.sparta.fmdelivery.domain.menu.entity.Menu;
