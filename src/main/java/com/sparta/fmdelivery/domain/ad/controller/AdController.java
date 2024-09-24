@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/ads")
+@RequestMapping("/api/v1/admin/ads")
 public class AdController {
 
     private final AdService adService;

@@ -60,17 +60,18 @@ public class AuthServiceTest {
 
     }
 
-//    @Test
-//    void 중복된_이메일로_회원가입_실패() {
-//        // given
-//        SignupRequest signupRequest = new SignupRequest("test@example.com", "password", "USER");
-//        given(userRepository.existsByEmail(signupRequest.getEmail())).willReturn(true);
-//
-//        // when / then
-//        ApiException exception = assertThrows(ApiException.class, () -> authService.signup(signupRequest));
-//
-//        assertEquals(ErrorStatus._BAD_REQUEST_EMAIL.getMessage(), exception.getMessage());
-//
-//    }
+    @Test
+    void 중복된_이메일로_회원가입_실패() {
+        // given
+        SignupRequest signupRequest = new SignupRequest("test@example.com", "password", "USER");
+        given(userRepository.existsByEmail(signupRequest.getEmail())).willReturn(true);
+
+        // when / then
+        ApiException exception = assertThrows(ApiException.class, () -> authService.signup(signupRequest));
+
+        assertEquals("이미 존재하는 이메일입니다", exception.getErrorCode().getReasonHttpStatus().getMessage());
+
+    }
+
 
 }
