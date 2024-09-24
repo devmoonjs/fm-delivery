@@ -77,7 +77,7 @@ public class MenuService {
     }
 
     // 메뉴 유효성 검증 로직
-    private Menu getValidatedMenu(Long menuId) {
+    public Menu getValidatedMenu(Long menuId) {
         return menuRepository.findById(menuId)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_MENU));
     }
