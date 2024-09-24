@@ -24,7 +24,7 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
     private final ShopService shopService;
-    private final S3ClientUtility s3ClientUtility; // 공통 컴포넌트 주입
+    private final S3ClientUtility s3ClientUtility;
 
     private final String MENU_IMG_DIR = "menu/";
 
