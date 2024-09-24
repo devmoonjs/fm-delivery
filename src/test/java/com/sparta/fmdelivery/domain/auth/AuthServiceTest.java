@@ -5,6 +5,7 @@ import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
 import com.sparta.fmdelivery.config.JwtUtil;
 import com.sparta.fmdelivery.config.PasswordEncoder;
 import com.sparta.fmdelivery.domain.auth.dto.request.LoginRequest;
+import com.sparta.fmdelivery.domain.auth.dto.request.SignoutRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignupRequest;
 import com.sparta.fmdelivery.domain.auth.dto.response.SignResponse;
 import com.sparta.fmdelivery.domain.auth.service.AuthService;
@@ -111,5 +112,21 @@ public class AuthServiceTest {
         // when / then
         ApiException exception = assertThrows(ApiException.class, () -> authService.login(loginRequest));
         assertEquals("비밀번호가 일치하지 않습니다." , exception.getErrorCode().getReasonHttpStatus().getMessage());
+    }
+
+    @Test
+    void 회원탈퇴_성공() {
+        // given
+        SignoutRequest signoutRequest = new SignoutRequest("password");
+        User user = new User("test@example.com", "encodedPassword", UserRole.USER);
+
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
+        given(passwordEncoder.matches(signoutRequest.getPassword(), user.getPassword())).willReturn(true);
+
+        // when
+        authService.signout(signoutRequest, 1L);
+
+        // then
+        verify(userRepository).delete(user);
     }
 }
