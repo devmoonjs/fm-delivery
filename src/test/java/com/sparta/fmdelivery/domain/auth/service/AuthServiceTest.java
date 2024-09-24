@@ -1,14 +1,11 @@
-package com.sparta.fmdelivery.domain.auth;
+package com.sparta.fmdelivery.domain.auth.service;
 
-import com.sparta.fmdelivery.apipayload.ApiResponse;
-import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
 import com.sparta.fmdelivery.config.JwtUtil;
 import com.sparta.fmdelivery.config.PasswordEncoder;
 import com.sparta.fmdelivery.domain.auth.dto.request.LoginRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignoutRequest;
 import com.sparta.fmdelivery.domain.auth.dto.request.SignupRequest;
 import com.sparta.fmdelivery.domain.auth.dto.response.SignResponse;
-import com.sparta.fmdelivery.domain.auth.service.AuthService;
 import com.sparta.fmdelivery.domain.user.entity.User;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
 import com.sparta.fmdelivery.domain.user.repository.UserRepository;
