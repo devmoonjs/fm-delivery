@@ -6,8 +6,8 @@ import com.sparta.fmdelivery.domain.ad.dto.request.AdSaveRequest;
 import com.sparta.fmdelivery.domain.ad.dto.response.AdChangeResponse;
 import com.sparta.fmdelivery.domain.ad.dto.response.AdResponse;
 import com.sparta.fmdelivery.domain.ad.service.AdService;
-import com.sparta.fmdelivery.domain.common.annotation.Auth;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.annotation.Auth;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

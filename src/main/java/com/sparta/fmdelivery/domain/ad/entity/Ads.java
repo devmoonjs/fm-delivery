@@ -1,6 +1,6 @@
 package com.sparta.fmdelivery.domain.ad.entity;
 
-import com.sparta.fmdelivery.domain.common.entity.Timestamped;
+import com.sparta.fmdelivery.common.entity.Timestamped;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

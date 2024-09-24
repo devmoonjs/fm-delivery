@@ -1,6 +1,6 @@
 package com.sparta.fmdelivery.domain.user.entity;
 
-import com.sparta.fmdelivery.domain.common.entity.Timestamped;
+import com.sparta.fmdelivery.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;

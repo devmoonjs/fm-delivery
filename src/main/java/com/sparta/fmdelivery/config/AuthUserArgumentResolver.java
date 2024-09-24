@@ -1,7 +1,7 @@
 package com.sparta.fmdelivery.config;
 
-import com.sparta.fmdelivery.domain.common.annotation.Auth;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.annotation.Auth;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;

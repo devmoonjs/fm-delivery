@@ -7,7 +7,7 @@ import com.sparta.fmdelivery.domain.ad.dto.response.AdChangeResponse;
 import com.sparta.fmdelivery.domain.ad.dto.response.AdResponse;
 import com.sparta.fmdelivery.domain.ad.entity.Ads;
 import com.sparta.fmdelivery.domain.ad.repository.AdRepository;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
 import com.sparta.fmdelivery.domain.shop.repository.ShopRepository;
 import com.sparta.fmdelivery.domain.user.enums.UserRole;

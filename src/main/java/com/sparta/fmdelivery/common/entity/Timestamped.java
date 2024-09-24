@@ -1,4 +1,4 @@
-package com.sparta.fmdelivery.domain.common.entity;
+package com.sparta.fmdelivery.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
