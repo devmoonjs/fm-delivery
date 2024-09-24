@@ -2,24 +2,22 @@ package com.sparta.fmdelivery.domain.notification.controller;
 
 import com.sparta.fmdelivery.domain.common.annotation.Auth;
 import com.sparta.fmdelivery.domain.common.dto.AuthUser;
-import com.sparta.fmdelivery.domain.notification.service.NotificatoinService;
+import com.sparta.fmdelivery.domain.notification.dto.request.NoticeCreateRequest;
+import com.sparta.fmdelivery.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/sse/v1")
+@RequestMapping("/api/v1/admin")
 public class NotificationController {
 
-    private final NotificatoinService notificatoinService;
+    private final NotificationService notificationService;
 
-    @GetMapping(value = "/subscribe", produces = MediaType.ALL_VALUE)
-    public SseEmitter subscribe(@Auth AuthUser authUser) {
-        return notificatoinService.subscribe(authUser);
+    @PostMapping("/notices")
+    public ResponseEntity<String> sendNoticeToAll(@RequestBody NoticeCreateRequest request) {
+        notificationService.sendNoticeToAll(request);
+        return ResponseEntity.ok("전체 유저에게 메세지 전송 완료.");
     }
 }
