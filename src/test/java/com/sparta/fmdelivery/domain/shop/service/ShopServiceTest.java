@@ -1,7 +1,6 @@
 package com.sparta.fmdelivery.domain.shop.service;
 
-import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopDeleteRequest;
 import com.sparta.fmdelivery.domain.shop.dto.response.ShopResponse;
@@ -13,7 +12,6 @@ import com.sparta.fmdelivery.domain.user.repository.UserRepository;
 import com.sparta.fmdelivery.exception.ApiException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,7 +19,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalTime;
 import java.util.Optional;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
