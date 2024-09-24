@@ -1,6 +1,6 @@
 package com.sparta.fmdelivery.domain.cart.dto;
 
-import com.sparta.fmdelivery.domain.order.pojo.SimpleMenu;
+import com.sparta.fmdelivery.domain.order.dto.SimpleMenu;
 import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

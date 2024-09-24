@@ -1,4 +1,4 @@
-package com.sparta.fmdelivery.domain.common.annotation;
+package com.sparta.fmdelivery.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

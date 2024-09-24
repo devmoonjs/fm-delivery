@@ -24,29 +24,48 @@ repositories {
 }
 
 dependencies {
+    // Spring Boot JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Spring Boot Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Lombok
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    // bcrypt
-    implementation 'at.favre.lib:bcrypt:0.10.2'
-    // jwt
-    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-    // valid
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    // AWS S3
+
+    // MySQL 커넥터
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // AWS S3 연동
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'// JSON 파싱
-    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
-    implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
-    // redis
+
+    // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // Hypersistence Utils
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
+
+    // 테스트 라이브러리
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Bcrypt
+    implementation 'at.favre.lib:bcrypt:0.10.2'
+
+    // JWT
+    compileOnly 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // Bean Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // JAXB API
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+    // Jackson
+    implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
 }
 
 tasks.named('test') {

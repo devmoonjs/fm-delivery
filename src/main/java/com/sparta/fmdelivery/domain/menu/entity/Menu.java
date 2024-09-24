@@ -1,6 +1,6 @@
 package com.sparta.fmdelivery.domain.menu.entity;
 
-import com.sparta.fmdelivery.domain.common.entity.Timestamped;
+import com.sparta.fmdelivery.common.entity.Timestamped;
 import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
 import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
 import jakarta.persistence.*;

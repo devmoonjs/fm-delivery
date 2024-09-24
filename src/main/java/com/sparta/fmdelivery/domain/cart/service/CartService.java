@@ -5,11 +5,11 @@ import com.sparta.fmdelivery.domain.cart.dto.CartResponse;
 import com.sparta.fmdelivery.domain.cart.dto.CartRequest;
 import com.sparta.fmdelivery.domain.cart.entity.Cart;
 import com.sparta.fmdelivery.domain.cart.repository.CartRepository;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.menu.repository.MenuRepository;
 import com.sparta.fmdelivery.domain.menu.entity.Menu;
-import com.sparta.fmdelivery.domain.order.pojo.MenuIdList;
-import com.sparta.fmdelivery.domain.order.pojo.SimpleMenu;
+import com.sparta.fmdelivery.domain.order.dto.MenuIdList;
+import com.sparta.fmdelivery.domain.order.dto.SimpleMenu;
 import com.sparta.fmdelivery.domain.shop.entitiy.Shop;
 import com.sparta.fmdelivery.domain.shop.repository.ShopRepository;
 import com.sparta.fmdelivery.domain.user.entity.User;
@@ -30,17 +30,11 @@ public class CartService {
     private final ShopRepository shopRepository;
     private final MenuRepository menuRepository;
 
-    /**
-     * 장바구니에 메뉴 추가 기능
-     * @param authUser : 사용자 정보
-     * @param request : shopId, menuId, count 정보
-     * @return CartResponse : 장바구니에 담긴 식당과 메뉴 정보
-     */
-    public CartResponse saveCart(AuthUser authUser, CartRequest request) {
 
-        User user = getUserById(authUser);              // 사용자 확인
-        Shop shop = getShopById(request.getShopId());   // 가게 확인
-        Cart cart = cartRepository.findById(authUser.getId()).orElse(null);          // 해당 사용자의 장바구니가 존재하는지 확인
+    public CartResponse saveCart(AuthUser authUser, CartRequest request) {
+        User user = getUserById(authUser);
+        Shop shop = getShopById(request.getShopId());
+        Cart cart = cartRepository.findById(authUser.getId()).orElse(null);
 
         if(cart == null) {
             // 기존 장바구니가 없을 경우 - cart 생성
@@ -68,68 +62,51 @@ public class CartService {
             }
         }
 
-        cartRepository.save(cart);      // 장바구니 저장
-        return getCartResponse(shop, cart);     // response DTO 생성 및 반환
+        cartRepository.save(cart);
+        return getCartResponse(shop, cart);
     }
 
-    /**
-     * 장바구니의 조회 기능
-     * @param authUser : 사용자 정보
-     * @return CartResponse : 장바구니에 담긴 식당과 메뉴 정보
-     */
+
     public CartResponse getCart(AuthUser authUser) {
-
-        User user = getUserById(authUser);  // 사용자 확인
-        Cart cart = getCartById(user.getId());  // 해당 사용자의 장바구니 조회
-
-        // response DTO 생성 및 반환
+        User user = getUserById(authUser);
+        Cart cart = getCartById(user.getId());
         Shop shop = getShopById(cart.getShopId());
         return getCartResponse(shop, cart);
     }
 
-    /**
-     * 장바구니 삭제 기능
-     * @param authUser : 사용자 정보
-     */
-    public void delete(AuthUser authUser) {
 
-        User user = getUserById(authUser);  // 사용자 확인
-        Cart cart = getCartById(user.getId());  // 해당 사용자의 장바구니 조회
-        cartRepository.delete(cart);    // 장바구니 삭제
+    public void deleteCart(AuthUser authUser) {
+        User user = getUserById(authUser);
+        Cart cart = getCartById(user.getId());
+        cartRepository.delete(cart);
     }
 
 
     private User getUserById(AuthUser authUser) {
-
         return userRepository.findById(authUser.getId()).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_USER)
         );
     }
 
     private Shop getShopById(Long shopId) {
-
         return shopRepository.findById(shopId).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_SHOP)
         );
     }
 
     private Menu getMenuById(Long menuId) {
-
         return menuRepository.findById(menuId).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_MENU)
         );
     }
 
     private Cart getCartById(Long userId) {
-
         return cartRepository.findById(userId).orElseThrow(
                 () -> new ApiException(ErrorStatus._NOT_FOUND_CART)
         );
     }
 
-    // Shop ,Cart 객체를 받아 CartResponse 객체를 생성 및 반환하는 메서드
     private CartResponse getCartResponse(Shop shop, Cart cart) {
-
         List<SimpleMenu> simpleMenuList = cart.getMenu().stream()
                 .map(menuIdList -> {
                     Menu savedMenu = getMenuById(menuIdList.getMenuId());

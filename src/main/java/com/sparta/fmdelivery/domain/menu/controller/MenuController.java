@@ -1,8 +1,8 @@
 package com.sparta.fmdelivery.domain.menu.controller;
 
 import com.sparta.fmdelivery.apipayload.ApiResponse;
-import com.sparta.fmdelivery.domain.common.annotation.Auth;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.annotation.Auth;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.menu.dto.MenuRequest;
 import com.sparta.fmdelivery.domain.menu.dto.MenuResponse;
 import com.sparta.fmdelivery.domain.menu.service.MenuService;
@@ -30,7 +30,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus")
-    public ApiResponse<List<MenuResponse>> getMenusByShopId(@RequestParam(name = "shop_id") Long shopId) {
+    public ApiResponse<List<MenuResponse>> getMenusByShopId(@RequestParam(name = "shopId") Long shopId) {
         return ApiResponse.onSuccess(menuService.getMenus(shopId));
     }
 
@@ -46,8 +46,8 @@ public class MenuController {
     @DeleteMapping("/menus")
     public ApiResponse<String> deleteMenu(
             @Auth AuthUser authUser,
-            @RequestParam("menu_id") Long menuId,
-            @RequestParam("shop_id") Long shopId) {
+            @RequestParam("menuId") Long menuId,
+            @RequestParam("shopId") Long shopId) {
         menuService.deleteMenu(authUser, menuId, shopId);
         return ApiResponse.onSuccess("메뉴가 삭제되었습니다.");
     }

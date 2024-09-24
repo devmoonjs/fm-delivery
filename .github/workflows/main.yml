@@ -41,5 +41,5 @@ jobs:
           docker stop fm-delivery-container || true
           docker rm fm-delivery-container || true
           docker build -t fm-delivery-app /home/ec2-user/
-          docker run -d --name fm-delivery-container -p 8080:8080 fm-delivery-app
+          docker run -d --name fm-delivery-container -p 80:8080 fm-delivery-app
         EOF

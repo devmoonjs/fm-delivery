@@ -4,7 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.sparta.fmdelivery.apipayload.status.ErrorStatus;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.order.entity.Order;
 import com.sparta.fmdelivery.domain.order.repository.OrderRepository;
 import com.sparta.fmdelivery.domain.review.dto.ReviewRequest;
@@ -42,13 +42,6 @@ public class ReviewService {
 
     private String MENU_IMG_DIR = "review/";
 
-    /**
-     * 리뷰 저장
-     * @param authUser
-     * @param request
-     * @param image
-     * @return
-     */
     @Transactional
     public ReviewResponse createReview(AuthUser authUser, ReviewRequest request, MultipartFile image) {
         Order order = getOrderById(request.getOrderId());
@@ -61,22 +54,12 @@ public class ReviewService {
         return ReviewResponse.fromEntity(reviewRepository.save(review));
     }
 
-    /**
-     * 리뷰 단건 조회
-     * @param reviewId
-     * @return
-     */
     @Transactional(readOnly = true)
     public ReviewResponse getReview(Long reviewId) {
         Review review = getReviewById(reviewId);
         return ReviewResponse.fromEntity(review);
     }
 
-    /**
-     * 해당 가게의 전체 리뷰 조회
-     * @param shopId
-     * @return
-     */
     @Transactional(readOnly = true)
     public List<ReviewResponse> getReviews(Long shopId) {
         List<Review> reviews = reviewRepository.findAllByShopId(shopId);
@@ -85,12 +68,6 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 리뷰 수정
-     * @param authUser
-     * @param request
-     * @return
-     */
     @Transactional
     public ReviewResponse updateReview(AuthUser authUser, Long reviewId, ReviewRequest request, MultipartFile image) {
         Review review = getReviewById(reviewId);
@@ -106,11 +83,6 @@ public class ReviewService {
         return ReviewResponse.fromEntity(review);
     }
 
-    /**
-     * 리뷰 삭제
-     * @param authUser
-     * @param reviewId
-     */
     @Transactional
     public void deleteReview(AuthUser authUser, Long reviewId) {
         Review review = getReviewById(reviewId);
@@ -119,62 +91,32 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
-    /**
-     * 주문 조회
-     * @param orderId
-     * @return Order
-     */
     private Order getOrderById(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_ORDER));
     }
 
-    /**
-     * 가게 조회
-     * @param shopId
-     * @return Shop
-     */
     private Shop getShopById(Long shopId) {
         return shopRepository.findById(shopId)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_SHOP));
     }
 
-    /**
-     * 사용자 조회
-     * @param userId
-     * @return User
-     */
     private User getUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_USER));
     }
 
-    /**
-     * 리뷰 조회
-     * @param reviewId
-     * @return Review
-     */
     private Review getReviewById(Long reviewId) {
         return reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ApiException(ErrorStatus._NOT_FOUND_REVIEW));
     }
 
-    /**
-     * 사용자 권한 확인
-     * @param reviewUserId
-     * @param authUserId
-     */
     private void validateUserPermission(Long reviewUserId, Long authUserId) {
         if (!reviewUserId.equals(authUserId)) {
             throw new ApiException(ErrorStatus._BAD_REQUEST_UPDATE_REVIEW);
         }
     }
 
-    /**
-     * S3에 이미지 업로드 메서드 (임시 파일 없이 바로 업로드)
-     * @param multipartFile
-     * @return
-     */
     private String uploadImageToS3(MultipartFile multipartFile) {
         try {
             String fileName = MENU_IMG_DIR + UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();

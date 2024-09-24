@@ -3,12 +3,10 @@ package com.sparta.fmdelivery.domain.cart.controller;
 import com.sparta.fmdelivery.apipayload.ApiResponse;
 import com.sparta.fmdelivery.domain.cart.dto.CartResponse;
 import com.sparta.fmdelivery.domain.cart.dto.CartRequest;
-import com.sparta.fmdelivery.domain.cart.entity.Cart;
 import com.sparta.fmdelivery.domain.cart.service.CartService;
-import com.sparta.fmdelivery.domain.common.annotation.Auth;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.annotation.Auth;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,7 +31,7 @@ public class CartController {
     // 장바구니 삭제(비우기)
     @PatchMapping("/carts")
     public ApiResponse<String> deleteCart(@Auth AuthUser authUser){
-        cartService.delete(authUser);
+        cartService.deleteCart(authUser);
         return ApiResponse.onSuccess("장바구니가 삭제되었습니다.");
     }
 

@@ -1,8 +1,8 @@
 package com.sparta.fmdelivery.domain.shop.controller;
 
 import com.sparta.fmdelivery.apipayload.ApiResponse;
-import com.sparta.fmdelivery.domain.common.annotation.Auth;
-import com.sparta.fmdelivery.domain.common.dto.AuthUser;
+import com.sparta.fmdelivery.common.annotation.Auth;
+import com.sparta.fmdelivery.common.dto.AuthUser;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopCreateRequest;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopDeleteRequest;
 import com.sparta.fmdelivery.domain.shop.dto.request.ShopUpdateRequest;
