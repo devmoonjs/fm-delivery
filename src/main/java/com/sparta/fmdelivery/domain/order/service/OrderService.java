@@ -66,13 +66,14 @@ public class OrderService {
                 user
         );
 
-        // 가게 오픈/마감 시간이 아닐경우
+        // 먼저 Order 엔티티를 저장해야 createdAt이 설정됨
+        orderRepository.save(order);
+
+        // 저장된 후에 createdAt을 가져와서 주문 시간을 확인
         LocalTime orderTime = order.getCreatedAt().toLocalTime();
         if (orderTime.isBefore(shop.getOpenedAt()) || orderTime.isAfter(shop.getClosedAt())) {
             throw new ApiException(ErrorStatus._BAD_REQUEST_ORDER_TIME);
         }
-
-        orderRepository.save(order);
 
         OrderMenu orderMenu = new OrderMenu(cart.getMenu(), order, shop);
         orderMenuRepository.save(orderMenu);
