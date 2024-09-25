@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM Delivery</title>
+    <title>배달의 정석</title>
     <style>
         .img {
-            margin: 20px auto;
+            margin: 20px auto; /* 이미지 가운데 정렬 */
             display: block;
-            width: 300px; /* 이미지 너비를 300px로 키움 */
-            height: auto; /* 비율을 유지하면서 높이를 자동 조정 */
+            width: auto;
+            height: 300px;
         }
 
         .donate-btn {
             display: block;
             margin: 10px auto;
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: #ff515c; /* 버튼 색상을 #ff515c로 변경 */
             color: white;
             border: none;
             border-radius: 5px;
@@ -25,12 +25,20 @@
         }
 
         .donate-btn:hover {
-            background-color: #45a049;
+            background-color: #e04a53; /* hover 시 색상 변경 */
+        }
+
+        .center-text {
+            text-align: center;
         }
     </style>
 </head>
 <body>
 <img class="img" src="https://github.com/user-attachments/assets/9a43cb63-08cb-4751-8024-ba35b7df96fc" alt="FM Delivery Image">
+
+<div class="center-text">
+    <h3>여러분의 따듯한 후원이 더 좋은 개발 문화를 만들어 갑니다.</h3><br>
+</div>
 
 <button class="donate-btn" onclick="donate('박예서', '신한 110-523-595660')">Donate - 박예서</button>
 <button class="donate-btn" onclick="donate('문정석', '카카오뱅크 3333-06737-0016')">Donate - 문정석</button>
