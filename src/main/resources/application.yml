@@ -55,9 +55,9 @@ spring:
       on-profile: prod
 
   datasource:
-    url: ${{ secrets.PROD_DB_URL }}  # RDS ????? ??
-    username: ${{ secrets.PROD_DB_USERNAME }}
-    password: ${{ secrets.PROD_DB_PASSWORD }}
+    url: ${PROD_DB_URL}  # RDS ????? ??
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -69,12 +69,12 @@ spring:
 
   data:
     redis:
-      host: ${{ secrets.PROD_REDIS_HOST }}
-      port: ${{ secrets.PROD_REDIS_PORT }}
+      host: ${PROD_REDIS_HOST}
+      port: ${PROD_REDIS_PORT}
 
 jwt:
   secret:
-    key: ${{ secrets.SECRET_KEY }}
+    key: ${PROD_SECRET_KEY}
 
 ---
 cloud:
@@ -82,8 +82,8 @@ cloud:
     s3:
       bucket: fm-delivery-bucket
     credentials:
-      access-key: ${{ secrets.PROD_S3_ACCESS_KEY }}
-      secret-key: ${{ secrets.PROD_S3_SECRET_KEY }}
+      access-key: ${PROD_S3_ACCESS_KEY}
+      secret-key: ${PROD_S3_SECRET_KEY}
     region:
       static: ap-northeast-2
       auto: false
