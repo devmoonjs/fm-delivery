@@ -2,14 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FM Delivery</title>
     <style>
         .img {
-            margin: 20px auto 0px auto;
+            margin: 20px auto;
+            display: block;
+            width: 300px; /* 이미지 너비를 300px로 키움 */
+            height: auto; /* 비율을 유지하면서 높이를 자동 조정 */
+        }
+
+        .donate-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .donate-btn:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-<img class="img" src="https://github.com/user-attachments/assets/9a43cb63-08cb-4751-8024-ba35b7df96fc" >
+<img class="img" src="https://github.com/user-attachments/assets/9a43cb63-08cb-4751-8024-ba35b7df96fc" alt="FM Delivery Image">
+
+<button class="donate-btn" onclick="donate('박예서', '신한 110-523-595660')">Donate - 박예서</button>
+<button class="donate-btn" onclick="donate('문정석', '카카오뱅크 3333-06737-0016')">Donate - 문정석</button>
+<button class="donate-btn" onclick="donate('한지은', '신한 110-525-119038')">Donate - 한지은</button>
+<button class="donate-btn" onclick="donate('이상민', '신한 110-480-595233')">Donate - 이상민</button>
+
+<script>
+    function donate(name, account) {
+        alert(name + " - " + account);
+    }
+</script>
 </body>
 </html>
