@@ -41,5 +41,14 @@ jobs:
           docker stop fm-delivery-container || true
           docker rm fm-delivery-container || true
           docker build -t fm-delivery-app /home/ec2-user/
-          docker run -d --name fm-delivery-container -p 80:8080 fm-delivery-app
+          docker run -d --name fm-delivery-container -p 80:8080 \
+            -e PROD_DB_URL=${{ secrets.PROD_DB_URL }} \
+            -e PROD_DB_USERNAME=${{ secrets.PROD_DB_USERNAME }} \
+            -e PROD_DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }} \
+            -e PROD_REDIS_HOST=${{ secrets.PROD_REDIS_HOST }} \
+            -e PROD_REDIS_PORT=${{ secrets.PROD_REDIS_PORT }} \
+            -e PROD_SECRET_KEY=${{ secrets.PROD_SECRET_KEY }} \
+            -e PROD_S3_ACCESS_KEY=${{ secrets.PROD_S3_ACCESS_KEY }} \
+            -e PROD_S3_SECRET_KEY=${{ secrets.PROD_S3_SECRET_KEY }} \
+            fm-delivery-app
         EOF
