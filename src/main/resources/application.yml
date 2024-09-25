@@ -19,7 +19,7 @@ spring:
 
 jwt:
   secret:
-    key: 7Iqk7YyM66W07YOA7L2U65Sp7YG065+9U3ByaW5n6rCV7J2Y7Yqc7YSw7LWc7JuQ67mI7J6F64uI64ukLg==
+    key: ${SECRET_KEY}
 
 ---
 
@@ -30,9 +30,9 @@ spring:
       on-profile: local
 
   datasource:
-    url: jdbc:mysql://localhost:3306/fm_server
-    username: root
-    password: 1234
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -55,9 +55,9 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:mysql://db-fm-server.cdsowokk0x7l.ap-northeast-2.rds.amazonaws.com:3306/fm_server  # RDS ????? ??
-    username: admin
-    password: fm_server
+    url: ${{ secrets.PROD_DB_URL }}  # RDS ????? ??
+    username: ${{ secrets.PROD_DB_USERNAME }}
+    password: ${{ secrets.PROD_DB_PASSWORD }}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -69,8 +69,8 @@ spring:
 
   data:
     redis:
-      host: fm-server-v1.ezwti8.ng.0001.apn2.cache.amazonaws.com
-      port: 6379
+      host: ${{ secrets.PROD_REDIS_HOST }}
+      port: ${{ secrets.PROD_REDIS_PORT }}
 
 ---
 cloud:
@@ -78,8 +78,8 @@ cloud:
     s3:
       bucket: fm-delivery-bucket
     credentials:
-      access-key: AKIAZQ3DSBLVICQ2ZNF4
-      secret-key: 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
+      access-key: ${{ secrets.PROD_S3_ACCESS_KEY }}
+      secret-key: ${{ secrets.PROD_S3_SECRET_KEY }}
     region:
       static: ap-northeast-2
       auto: false
