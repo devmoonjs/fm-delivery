@@ -17,10 +17,6 @@ spring:
         format_sql: true
         use_sql_comments: true
 
-jwt:
-  secret:
-    key: ${SECRET_KEY}
-
 ---
 
 # local ??? ??
@@ -47,6 +43,10 @@ spring:
       host: localhost
       port: 6379
 
+jwt:
+  secret:
+    key: ${SECRET_KEY}
+
 ---
 # prod ??? ??
 spring:
@@ -71,6 +71,10 @@ spring:
     redis:
       host: ${{ secrets.PROD_REDIS_HOST }}
       port: ${{ secrets.PROD_REDIS_PORT }}
+
+jwt:
+  secret:
+    key: ${{ secrets.SECRET_KEY }}
 
 ---
 cloud:
