@@ -33,6 +33,12 @@ public class JwtFilter implements Filter {
 
         String url = httpRequest.getRequestURI();
 
+        // 1. '/' 또는 '/index.html'로 들어오는 요청은 필터를 통과시킴
+        if (url.equals("/") || url.equals("/index.html")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         if (url.startsWith("/api/v1/auth")) {
             chain.doFilter(request, response);
             return;
