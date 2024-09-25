@@ -7,6 +7,14 @@
 이 프로젝트는 배달 애플리케이션의 API를 개발하는 것을 목표로 합니다. 주요 기능은 회원가입 및 로그인, 주문, 리뷰 작성 등 기본적인 배달 앱의 기능과 장바구니, 포인트 시스템과 같은 부가 기능을 포함합니다. 또한, AWS 인프라를 활용한 클라우드 기반의 서비스 제공을 목표로 하고 있으며, Docker 및 Github Actions를 통해 CI/CD 파이프라인을 구축하였습니다.
 
 ## 2. 주요 기술 스택
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white"> 
+<img src="https://img.shields.io/badge/RDS-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> <br> <img src="https://img.shields.io/badge/elasticache-C925D1?style=for-the-badge&logo=amazonelasticache&logoColor=white">
+<img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"> <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <br>
+<img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"> <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> <br>
+<img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+
+
 - **Backend**: SpringBoot
 - **Database**: MySQL, Redis (AWS Elastic Cache)
 - **Cloud**: AWS S3, EC2
