@@ -1,4 +1,4 @@
-<img src = "https://github.com/user-attachments/assets/9a43cb63-08cb-4751-8024-ba35b7df96fc">
+<p align = "center"><img src = "https://github.com/user-attachments/assets/9a43cb63-08cb-4751-8024-ba35b7df96fc" width=70%></p>
 
 # 배달 애플리케이션 API
 
