@@ -220,4 +220,16 @@
   - **response**: `Long`
   - **request header**: `Authorization: jwt-token`
 
+---
+
+
+## 알림 API
+
+- **POST /api/v1/admin/notices**
+  - **기능**: 사용자 전체 알림 발송
+  - **request**: `NoticeCreateRequestDto`
+  - **response**: -
+  - **request header**: `Authorization: jwt-token`
+  - **response header**: 
+
 
